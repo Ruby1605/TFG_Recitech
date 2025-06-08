@@ -17,12 +17,15 @@ class UsuarioType extends AbstractType
         $builder
             ->add('nombre', TextType::class, [
                 'label' => 'Nombre',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Correo electrónico',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Contraseña',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('rol', ChoiceType::class, [
                 'label' => 'Rol',
@@ -31,6 +34,7 @@ class UsuarioType extends AbstractType
                     'Usuario' => 'usuario',
                 ],
                 'placeholder' => 'Selecciona un rol',
+                'attr' => ['class' => 'form-select'],
             ]);
             // Agrega aquí otros campos según la entidad Usuario
     }
