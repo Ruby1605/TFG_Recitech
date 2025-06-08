@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Usuario{% endblock %}
+
+{% block body %}
+<h1>Crear nuevo usuario</h1>
+{{ form_start(form) }}
+    {{ form_row(form.nombre) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.rol) }}
+    <button class="btn btn-success">Guardar</button>
+{{ form_end(form) }}
+<a href="{{ path('gestion_usuarios') }}" class="btn btn-secondary" style="margin-top: 15px;">Volver al listado</a>
+{% endblock %}

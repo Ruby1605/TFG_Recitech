@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RecetasController!{% endblock %}
+
+{% block body %}
+<a href="{{ path('app_administrador') }}" class="btn btn-secondary" style="margin-bottom: 15px;">Volver al panel de administración</a>
+<a href="{{ path('receta_nueva') }}" class="btn btn-primary" style="margin-bottom: 15px; margin-left: 10px;">Nueva Receta</a>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Dificultad</th>
+            <th>Tiempo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for receta in recetas %}
+            <tr>
+                <td>{{ receta.id }}</td>
+                <td>{{ receta.nombre }}</td>
+                <td>{{ receta.dificultad }}</td>
+                <td>{{ receta.tiempo }}</td>
+                <td>
+                    <a href="{{ path('receta_ver', {'id': receta.id}) }}" class="btn btn-info btn-sm">Ver</a>
+                    <a href="{{ path('receta_editar', {'id': receta.id}) }}" class="btn btn-warning btn-sm">Editar</a>  
+                    <a href="{{ path('receta_eliminar', {'id': receta.id}) }}" class="btn btn-danger btn-sm"
+                    onclick="return confirm('¿Seguro que quieres eliminar esta receta?');">Eliminar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No hay recetas disponibles.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UsuariosController!{% endblock %}
+
+{% block body %}
+<h1>Listado de Usuarios</h1>
+<a href="{{ path('app_administrador') }}" class="btn btn-secondary" style="margin-bottom: 15px;">Volver al panel de administración</a>
+<a href="{{ path('usuario_nuevo') }}" class="btn btn-primary" style="margin-bottom: 15px; margin-left: 10px;">Crear nuevo usuario</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.password }}</td>
+                <td>{{ usuario.rol }}</td>
+                <td>
+                    <a href="{{ path('usuario_ver', {'id': usuario.id}) }}" class="btn btn-info btn-sm">Ver</a>
+                    <a href="{{ path('usuario_editar', {'id': usuario.id}) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{{ path('usuario_eliminar', {'id': usuario.id}) }}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Seguro que quieres eliminar este usuario?');">Eliminar</a> 
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">No hay usuarios registrados.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

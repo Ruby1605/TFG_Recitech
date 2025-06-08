@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdministradorController!{% endblock %}
+
+{% block body %}
+
+<div style="display: flex; gap: 20px;">
+    <a href="{{ path('gestion_usuarios') }}" class="btn btn-primary">Gestión de Usuarios</a>
+    <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Gestión de Recetas</a>
+</div>
+
+{% endblock %}

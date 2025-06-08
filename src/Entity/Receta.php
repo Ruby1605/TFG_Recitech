@@ -37,6 +37,9 @@ class Receta
     #[ORM\ManyToMany(targetEntity: Etiqueta::class, inversedBy: 'recetas')]
     private Collection $etiquetas;
 
+    #[ORM\Column(length: 255)]
+    private ?string $nombre = null;
+
     public function __construct()
     {
         $this->etiquetas = new ArrayCollection();
@@ -127,6 +130,18 @@ class Receta
     public function removeEtiqueta(Etiqueta $etiqueta): static
     {
         $this->etiquetas->removeElement($etiqueta);
+
+        return $this;
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): static
+    {
+        $this->nombre = $nombre;
 
         return $this;
     }

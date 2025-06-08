@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Receta{% endblock %}
+
+{% block body %}
+<h1>Editar Receta</h1>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-success">Guardar cambios</button>
+{{ form_end(form) }}
+<a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Volver al listado</a>
+{% endblock %}

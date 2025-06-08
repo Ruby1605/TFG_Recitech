@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Detalle de la Receta{% endblock %}
+
+{% block body %}
+<h1>{{ receta.nombre }}</h1>
+<ul>
+    <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
+    <li><strong>Tiempo:</strong> {{ receta.tiempo }}</li>
+    <li><strong>Descripción:</strong> {{ receta.explicacion }}</li>
+    <li><strong>Calorías:</strong> {{ receta.calorias }}</li>
+</ul>
+<a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Volver al listado</a>
+{% endblock %}

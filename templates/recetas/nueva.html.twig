@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nueva Receta{% endblock %}
+
+{% block body %}
+<h1>Nueva Receta</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.nombre) }}
+    {{ form_row(form.explicacion) }}
+    {{ form_row(form.tiempo) }}
+    {{ form_row(form.calorias) }}
+    {{ form_row(form.dificultad) }}
+    
+    <button class="btn btn-success">Guardar</button>
+{{ form_end(form) }}
+
+<a href="{{ path('gestion_recetas') }}">Volver al listado</a>
+{% endblock %}
