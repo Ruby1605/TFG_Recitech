@@ -16,12 +16,11 @@ class RecetaIngrediente
     #[ORM\Column(length: 50)]
     private ?string $cantidad = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Receta::class, inversedBy: 'recetaIngredientes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Receta $receta = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Ingrediente::class)]
     private ?Ingrediente $ingrediente = null;
 
     public function getId(): ?int

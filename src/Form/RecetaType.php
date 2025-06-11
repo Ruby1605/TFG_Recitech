@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Receta;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\Form\RecetaIngredienteType;
 
 class RecetaType extends AbstractType
 {
@@ -17,6 +19,13 @@ class RecetaType extends AbstractType
             ->add('tiempo')
             ->add('dificultad')
             ->add('calorias')
+            ->add('recetaIngredientes', CollectionType::class, [
+                'entry_type' => RecetaIngredienteType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
         ;
     }
 

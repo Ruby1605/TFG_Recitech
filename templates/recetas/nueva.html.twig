@@ -15,6 +15,14 @@
                         {{ form_row(form.tiempo) }}
                         {{ form_row(form.calorias) }}
                         {{ form_row(form.dificultad) }}
+
+                        <h5>Ingredientes</h5>
+                        <div id="receta_ingredientes"
+                             data-prototype="{{ form_widget(form.recetaIngredientes.vars.prototype)|e('html_attr') }}">
+                            {{ form_widget(form.recetaIngredientes) }}
+                        </div>
+                        <button type="button" class="btn btn-info mt-2" id="add-ingrediente">Añadir ingrediente</button>
+
                         <button class="btn btn-success mt-3">Guardar</button>
                     {{ form_end(form) }}
                     <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary mt-3">Volver al listado</a>
@@ -23,4 +31,20 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var collectionHolder = document.getElementById('receta_ingredientes');
+    var addButton = document.getElementById('add-ingrediente');
+    var index = collectionHolder.children.length;
+
+    addButton.addEventListener('click', function() {
+        var prototype = collectionHolder.dataset.prototype;
+        var newForm = prototype.replace(/__name__/g, index);
+        var div = document.createElement('div');
+        div.innerHTML = newForm;
+        collectionHolder.appendChild(div);
+        index++;
+    });
+});
+</script>
 {% endblock %}

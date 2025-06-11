@@ -19,6 +19,17 @@
                         <li class="list-group-item"><strong>Descripción:</strong> {{ receta.explicacion }}</li>
                         <li class="list-group-item"><strong>Calorías:</strong> {{ receta.calorias }}</li>
                     </ul>
+                    <h5 class="mt-4">Ingredientes:</h5>
+                    <ul class="list-group list-group-flush mb-3">
+                        {% for recetaIngrediente in receta.recetaIngredientes %}
+                            <li class="list-group-item">
+                                <strong>{{ recetaIngrediente.ingrediente.nombre }}</strong>
+                                — {{ recetaIngrediente.cantidad }}
+                            </li>
+                        {% else %}
+                            <li class="list-group-item text-muted">No hay ingredientes para esta receta.</li>
+                        {% endfor %}
+                    </ul>
                     <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Volver al listado</a>
                 </div>
             </div>

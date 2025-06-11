@@ -40,9 +40,16 @@ class Receta
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
+    /**
+     * @var Collection<int, RecetaIngrediente>
+     */
+    #[ORM\OneToMany(mappedBy: 'receta', targetEntity: RecetaIngrediente::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $recetaIngredientes;
+
     public function __construct()
     {
         $this->etiquetas = new ArrayCollection();
+        $this->recetaIngredientes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +149,36 @@ class Receta
     public function setNombre(string $nombre): static
     {
         $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecetaIngrediente>
+     */
+    public function getRecetaIngredientes(): Collection
+    {
+        return $this->recetaIngredientes;
+    }
+
+    public function addRecetaIngrediente(RecetaIngrediente $recetaIngrediente): static
+    {
+        if (!$this->recetaIngredientes->contains($recetaIngrediente)) {
+            $this->recetaIngredientes->add($recetaIngrediente);
+            $recetaIngrediente->setReceta($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecetaIngrediente(RecetaIngrediente $recetaIngrediente): static
+    {
+        if ($this->recetaIngredientes->removeElement($recetaIngrediente)) {
+            // set the owning side to null (unless already changed)
+            if ($recetaIngrediente->getReceta() === $this) {
+                $recetaIngrediente->setReceta(null);
+            }
+        }
 
         return $this;
     }
