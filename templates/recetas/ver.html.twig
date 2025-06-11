@@ -3,12 +3,26 @@
 {% block title %}Detalle de la Receta{% endblock %}
 
 {% block body %}
-<h1>{{ receta.nombre }}</h1>
-<ul>
-    <li><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
-    <li><strong>Tiempo:</strong> {{ receta.tiempo }}</li>
-    <li><strong>Descripción:</strong> {{ receta.explicacion }}</li>
-    <li><strong>Calorías:</strong> {{ receta.calorias }}</li>
-</ul>
-<a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Volver al listado</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">Detalle de la Receta</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>ID:</strong> {{ receta.id }}</li>
+                        <li class="list-group-item"><strong>Nombre:</strong> {{ receta.nombre }}</li>
+                        <li class="list-group-item"><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
+                        <li class="list-group-item"><strong>Tiempo:</strong> {{ receta.tiempo }}</li>
+                        <li class="list-group-item"><strong>Descripción:</strong> {{ receta.explicacion }}</li>
+                        <li class="list-group-item"><strong>Calorías:</strong> {{ receta.calorias }}</li>
+                    </ul>
+                    <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Volver al listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% endblock %}
+
+{% block body %}
+    <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
+        <div class="flex items-center space-x-2">
+            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+            <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
+        </div>
+        <nav class="flex items-center space-x-6">
+            <a href="pages/PaginaInicioSesion.html" class="bg-green-100 text-green-600 px-4 py-2 rounded-lg hover:bg-green-200">
+                Empezar
+            </a>
+        </nav>
+    </header>
+    <main class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Acerca de ReciTech</h2>
+        <p class="mb-4 text-gray-700">
+            ReciTech es una plataforma innovadora dedicada a promover el reciclaje inteligente y la sostenibilidad ambiental. Nuestro objetivo es facilitar a los usuarios la identificación, clasificación y gestión de residuos, utilizando tecnología de vanguardia y una interfaz intuitiva.
+        </p>
+        <p class="mb-4 text-gray-700">
+            Fundada en 2024 por un equipo multidisciplinar apasionado por el medio ambiente y la tecnología, ReciTech busca transformar la manera en que las personas interactúan con los residuos, fomentando hábitos responsables y contribuyendo a un futuro más limpio.
+        </p>
+        <ul class="list-disc pl-6 mb-4 text-gray-700">
+            <li>Identificación automática de materiales reciclables.</li>
+            <li>Consejos personalizados para reducir la huella ecológica.</li>
+            <li>Recursos educativos sobre reciclaje y sostenibilidad.</li>
+            <li>Comunidad activa para compartir ideas y experiencias.</li>
+        </ul>
+        <p class="text-gray-700">
+            ¡Únete a nosotros y sé parte del cambio hacia un planeta más verde!
+        </p>
+    </main>
+    
+    <footer class="bg-black text-white py-6 mt-10 rounded-xl mx-5">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <span class="text-sm mb-2 md:mb-0">&copy; {{ "now"|date("Y") }} ReciTech. Todos los derechos reservados.</span>
+            <a href="/acerca-de" class="text-green-400 hover:underline text-sm">Acerca de</a>
+        </div>
+    </footer>
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('js/JavaScript.js') }}"></script>
+{% endblock %}

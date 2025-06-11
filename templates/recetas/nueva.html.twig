@@ -3,17 +3,24 @@
 {% block title %}Nueva Receta{% endblock %}
 
 {% block body %}
-<h1>Nueva Receta</h1>
-
-{{ form_start(form) }}
-    {{ form_row(form.nombre) }}
-    {{ form_row(form.explicacion) }}
-    {{ form_row(form.tiempo) }}
-    {{ form_row(form.calorias) }}
-    {{ form_row(form.dificultad) }}
-    
-    <button class="btn btn-success">Guardar</button>
-{{ form_end(form) }}
-
-<a href="{{ path('gestion_recetas') }}">Volver al listado</a>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="mb-4">Crear nueva receta</h1>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        {{ form_row(form.nombre) }}
+                        {{ form_row(form.explicacion) }}
+                        {{ form_row(form.tiempo) }}
+                        {{ form_row(form.calorias) }}
+                        {{ form_row(form.dificultad) }}
+                        <button class="btn btn-success mt-3">Guardar</button>
+                    {{ form_end(form) }}
+                    <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary mt-3">Volver al listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

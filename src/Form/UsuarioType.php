@@ -29,6 +29,7 @@ class UsuarioType extends AbstractType
             ])
             ->add('rol', ChoiceType::class, [
                 'label' => 'Rol',
+                'label_attr' => ['style' => 'margin-right: 30px;'],
                 'choices' => [
                     'Administrador' => 'administrador',
                     'Usuario' => 'usuario',

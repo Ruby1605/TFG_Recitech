@@ -3,13 +3,25 @@
 {% block title %}Detalle del Usuario{% endblock %}
 
 {% block body %}
-<h1>Detalle del Usuario</h1>
-<ul>
-    <li><strong>ID:</strong> {{ usuario.id }}</li>
-    <li><strong>Nombre:</strong> {{ usuario.nombre }}</li>
-    <li><strong>Email:</strong> {{ usuario.email }}</li>
-    <li><strong>Password:</strong> {{ usuario.password }}</li>
-    <li><strong>Rol:</strong> {{ usuario.rol }}</li>
-</ul>
-<a href="{{ path('gestion_usuarios') }}" class="btn btn-secondary">Volver al listado</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0">Detalle del Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><strong>ID:</strong> {{ usuario.id }}</li>
+                        <li class="list-group-item"><strong>Nombre:</strong> {{ usuario.nombre }}</li>
+                        <li class="list-group-item"><strong>Email:</strong> {{ usuario.email }}</li>
+                        <li class="list-group-item"><strong>Password:</strong> {{ usuario.password }}</li>
+                        <li class="list-group-item"><strong>Rol:</strong> {{ usuario.rol }}</li>
+                    </ul>
+                    <a href="{{ path('gestion_usuarios') }}" class="btn btn-secondary">Volver al listado</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
