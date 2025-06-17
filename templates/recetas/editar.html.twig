@@ -28,6 +28,21 @@
                         </div>
                         <button type="button" class="btn btn-info mt-2" id="add-ingrediente">Añadir ingrediente</button>
 
+                        {% if receta.imagen %}
+                            <div class="mb-3">
+                                <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}" alt="Imagen de la receta" class="img-fluid mb-3" style="max-width: 300px;">
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="eliminar_imagen"> Eliminar imagen actual
+                                    </label>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning mt-2">No hay imagen para esta receta.</div>
+                        {% endif %}
+
+                        {{ form_row(form.imagen) }}
+
                         <button class="btn btn-success mt-3">Guardar cambios</button>
                     {{ form_end(form) }}
                     <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary mt-3">Volver al listado</a>

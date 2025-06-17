@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Receta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -36,37 +37,47 @@ final class RecetasController extends AbstractController
     }
 
     #[Route('/recetas/nueva', name: 'receta_nueva')]
-    public function nuevaReceta(Request $request, SluggerInterface $slugger): Response
+    public function nueva(Request $request, SluggerInterface $slugger): Response
     {
-        $receta = new \App\Entity\Receta();
-        $form = $this->createForm(\App\Form\RecetaType::class, $receta);
-        $form->handleRequest($request); 
-       
-        if ($form->isSubmitted() && $form->isValid()) {
-            $fotoFile = $form->get('foto')->getData();
-            if ($fotoFile) {
-                $originalFilename = pathinfo($fotoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$fotoFile->guessExtension();
+        $receta = new Receta();
+        $form = $this->createForm(RecetaType::class, $receta);
+        $form->handleRequest($request);
 
-                try {
-                    $fotoFile->move(
-                        $this->getParameter('fotos_recetas_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Manejar error si lo deseas
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $fotoFile = $form->get('imagen')->getData();
+                if ($fotoFile) {
+                    $originalFilename = pathinfo($fotoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$fotoFile->guessExtension();
+
+                    try {
+                        $fotoFile->move(
+                            $this->getParameter('fotos_recetas_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // Manejar error si lo deseas
+                    }
+
+                    $receta->setImagen($newFilename);
                 }
 
-                $receta->setImagen($newFilename);
+                $this->entityManager->persist($receta);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', '¡La receta se guardó correctamente!');
+                return $this->redirectToRoute('gestion_recetas');
+            } else {
+                // Recopilar errores
+                $errores = [];
+                foreach ($form->getErrors(true) as $error) {
+                    $errores[] = $error->getMessage();
+                }
+                $this->addFlash('danger', 'Errores en el formulario: ' . implode(' | ', $errores));
             }
-
-            $this->entityManager->persist($receta);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('gestion_recetas');
         }
-        
+
         return $this->render('recetas/nueva.html.twig', [
             'form' => $form->createView(),
             'receta' => $receta,
@@ -88,37 +99,49 @@ final class RecetasController extends AbstractController
     }
     
     #[Route('/recetas/{id}/editar', name: 'receta_editar')]
-    public function editar(Request $request, int $id): Response
+    public function editar(Request $request, Receta $receta, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
-        $receta = $this->recetaRepository->find($id);
-
-        if (!$receta) {
-            throw $this->createNotFoundException('Receta no encontrada');
-        }
-
         $form = $this->createForm(RecetaType::class, $receta);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Eliminar imagen si el checkbox está marcado
+            if ($request->request->get('eliminar_imagen')) {
+                if ($receta->getImagen()) {
+                    $rutaImagen = $this->getParameter('fotos_recetas_directory') . '/' . $receta->getImagen();
+                    if (file_exists($rutaImagen)) {
+                        unlink($rutaImagen);
+                    }
+                    $receta->setImagen(null);
+                }
+            }
+
+            // Subir nueva imagen si se selecciona
             $imagenFile = $form->get('imagen')->getData();
             if ($imagenFile) {
                 $originalFilename = pathinfo($imagenFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$imagenFile->guessExtension();
 
-                try {
-                    $imagenFile->move(
-                        $this->getParameter('fotos_recetas_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Manejar error si lo deseas
+                $imagenFile->move(
+                    $this->getParameter('fotos_recetas_directory'),
+                    $newFilename
+                );
+
+                // Elimina la imagen anterior si existe
+                if ($receta->getImagen()) {
+                    $rutaImagen = $this->getParameter('fotos_recetas_directory') . '/' . $receta->getImagen();
+                    if (file_exists($rutaImagen)) {
+                        unlink($rutaImagen);
+                    }
                 }
 
                 $receta->setImagen($newFilename);
             }
 
-            $this->entityManager->flush();
+            $entityManager->flush();
+
+            $this->addFlash('success', '¡La receta se actualizó correctamente!');
             return $this->redirectToRoute('gestion_recetas');
         }
 
@@ -139,6 +162,7 @@ final class RecetasController extends AbstractController
 
         $this->entityManager->remove($receta);
         $this->entityManager->flush();
+        $this->addFlash('success', '¡La receta se eliminó correctamente!');
 
         return $this->redirectToRoute('gestion_recetas');
     }

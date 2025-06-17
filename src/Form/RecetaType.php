@@ -33,19 +33,6 @@ class RecetaType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
-                'constraints' => [
-                    new File([
-                        'maxSize' => '8M',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            'image/webp',
-                            'image/gif',
-                        ],
-                        'mimeTypesMessage' => 'Por favor, sube una imagen válida (jpg, png, webp, gif)',
-                        'maxSizeMessage' => 'El archivo no debe superar los 8 MB.',
-                    ])
-                ],
             ])
         ;
     }
