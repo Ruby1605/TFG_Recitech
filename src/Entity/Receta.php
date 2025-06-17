@@ -28,7 +28,7 @@ class Receta
     #[ORM\Column]
     private ?int $calorias = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $imagen = null;
 
     /**

@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% endblock %}
+
+{% block body %}
+    <!-- Header -->
+    <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+            <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
+        </div>
+        <!-- Menú -->
+        <nav class="flex items-center space-x-6 text-xs">
+            <a href="/home" class="flex flex-col items-center">
+            <img src="{{ asset('assets/iconos/casa.png') }}" alt="" class="w-8 h-8">
+            
+            </a>
+            <a href="/tiporeceta" class="flex flex-col items-center">
+            <img src="{{ asset('assets/iconos/libro-de-recetas.png') }}" alt="Recetas" class="w-8 h-8">
+            </a>
+            <span class="mx-4"></span>
+            <a href="/perfil">
+                <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full border border-gray-300">
+            </a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="container mx-auto p-6">
+        <!-- Selección de ingredientes -->
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full mb-6">
+            <h2 class="text-lg font-bold text-gray-700 mb-4">Elige los ingredientes que tienes en casa</h2>
+            <div class="mb-4">
+                <select id="ingredientes-select" multiple class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="Patatas">Patatas</option>
+                    <option value="Tomates">Tomates</option>
+                    <option value="Cebolla">Cebolla</option>
+                    <option value="Zanahoria">Zanahoria</option>
+                    <option value="Pollo">Pollo</option>
+                    <option value="Pescado">Pescado</option>
+                    <option value="Arroz">Arroz</option>
+                    <option value="Pasta">Pasta</option>
+                </select>
+            </div>
+            <div class="flex flex-wrap gap-2" id="ingredientes-añadidos">
+                <!-- Ingredientes añadidos dinámicamente -->
+            </div>
+        </div>
+    
+        <!-- Opciones de filtro -->
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full">
+            <h2 class="text-lg font-bold text-gray-700 mb-4">Filtros</h2>
+            <div class="space-y-4">
+                <!-- Tipo de comida -->
+                <div>
+                    <label for="tipo-comida" class="block text-gray-600 font-medium mb-1">¿Qué comida quieres cocinar?</label>
+                    <select id="tipo-comida" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option>Almuerzo</option>
+                        <option>Desayuno</option>
+                        <option>Cena</option>
+                    </select>
+                </div>
+    
+                <!-- Nivel de receta -->
+                <div>
+                    <label for="nivel-receta" class="block text-gray-600 font-medium mb-1">Nivel de Receta</label>
+                    <select id="nivel-receta" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option>Todas</option>
+                        <option>Fácil</option>
+                        <option>Intermedia</option>
+                        <option>Avanzada</option>
+                    </select>
+                </div>
+    
+                <!-- Tiempo -->
+                <div>
+                    <label for="tiempo" class="block text-gray-600 font-medium mb-1">Tiempo</label>
+                    <input type="range" id="tiempo" min="0" max="120" class="w-full">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/JsMiNevera.js') }}"></script>
+{% endblock %}

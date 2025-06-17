@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\RecetaType;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class RecetasController extends AbstractController
 {
@@ -34,13 +36,31 @@ final class RecetasController extends AbstractController
     }
 
     #[Route('/recetas/nueva', name: 'receta_nueva')]
-    public function nuevaReceta(Request $request): Response
+    public function nuevaReceta(Request $request, SluggerInterface $slugger): Response
     {
         $receta = new \App\Entity\Receta();
         $form = $this->createForm(\App\Form\RecetaType::class, $receta);
         $form->handleRequest($request); 
        
         if ($form->isSubmitted() && $form->isValid()) {
+            $fotoFile = $form->get('foto')->getData();
+            if ($fotoFile) {
+                $originalFilename = pathinfo($fotoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$fotoFile->guessExtension();
+
+                try {
+                    $fotoFile->move(
+                        $this->getParameter('fotos_recetas_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Manejar error si lo deseas
+                }
+
+                $receta->setImagen($newFilename);
+            }
+
             $this->entityManager->persist($receta);
             $this->entityManager->flush();
 
@@ -49,6 +69,7 @@ final class RecetasController extends AbstractController
         
         return $this->render('recetas/nueva.html.twig', [
             'form' => $form->createView(),
+            'receta' => $receta,
         ]);
     }
 
@@ -67,7 +88,7 @@ final class RecetasController extends AbstractController
     }
     
     #[Route('/recetas/{id}/editar', name: 'receta_editar')]
-    public function editarReceta(Request $request, int $id): Response
+    public function editar(Request $request, int $id): Response
     {
         $receta = $this->recetaRepository->find($id);
 
@@ -75,12 +96,29 @@ final class RecetasController extends AbstractController
             throw $this->createNotFoundException('Receta no encontrada');
         }
 
-        $form = $this->createForm(\App\Form\RecetaType::class, $receta);
+        $form = $this->createForm(RecetaType::class, $receta);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush();
+            $imagenFile = $form->get('imagen')->getData();
+            if ($imagenFile) {
+                $originalFilename = pathinfo($imagenFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imagenFile->guessExtension();
 
+                try {
+                    $imagenFile->move(
+                        $this->getParameter('fotos_recetas_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Manejar error si lo deseas
+                }
+
+                $receta->setImagen($newFilename);
+            }
+
+            $this->entityManager->flush();
             return $this->redirectToRoute('gestion_recetas');
         }
 

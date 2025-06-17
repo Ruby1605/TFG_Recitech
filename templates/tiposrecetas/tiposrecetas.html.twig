@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% endblock %}
+
+{% block body %}
+    <!-- Header -->
+    <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+            <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
+        </div>
+        <!-- Menú -->
+        <nav class="flex items-center space-x-6 text-xs">
+            <a href="/home" class="flex flex-col items-center">
+            <img src="{{ asset('assets/iconos/casa.png') }}" alt="" class="w-8 h-8">
+            
+            </a>
+            <a href="/minevera" class="flex flex-col items-center">
+            <img src="{{ asset('assets/iconos/nevera.png') }}" alt="Mi Nevera" class="w-8 h-8">
+            </a>
+            <span class="mx-4"></span>
+            <a href="/perfil">
+                <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full border border-gray-300">
+            </a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <div class="container mx-auto p-6">
+        <div class="flex justify-center space-x-6">
+            <!-- Tarjeta Experto -->
+            <div class="w-1/4 bg-gray-200 rounded-lg shadow-md p-6 text-center hover:border-2 hover:border-blue-500 cursor-pointer">
+                <h2 class="text-lg font-bold text-gray-700">Experto</h2>
+            </div>
+            <!-- Tarjeta Medio -->
+            <div class="w-1/4 bg-gray-200 rounded-lg shadow-md p-6 text-center hover:border-2 hover:border-blue-500 cursor-pointer">
+                <h2 class="text-lg font-bold text-gray-700">Medio</h2>
+            </div>
+            <!-- Tarjeta Fácil -->
+            <div class="w-1/4 bg-gray-200 rounded-lg shadow-md p-6 text-center hover:border-2 hover:border-blue-500 cursor-pointer">
+                <h2 class="text-lg font-bold text-gray-700">Fácil</h2>
+            </div>
+        </div>
+    </div>
+{% endblock %}

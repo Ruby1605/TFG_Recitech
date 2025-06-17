@@ -9,6 +9,9 @@
             <h1 class="mb-4">Crear nueva receta</h1>
             <div class="card shadow-sm">
                 <div class="card-body">
+                    {% if receta.imagen %}
+                        <img src="{{ asset('assets/fotorecetas/' ~ receta.foto) }}" alt="Foto de la receta" class="img-fluid mb-3">
+                    {% endif %}
                     {{ form_start(form) }}
                         {{ form_row(form.nombre) }}
                         {{ form_row(form.explicacion) }}

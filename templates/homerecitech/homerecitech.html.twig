@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% endblock %}
+
+{% block body %}
+    <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
+        <div class="flex items-center space-x-2">
+            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+            <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
+        </div>
+        <nav class="flex items-center space-x-6 text-xs">
+            <a href="/minevera" class="flex flex-col items-center">
+            <img src="{{ asset('assets/iconos/nevera.png') }}" alt="Mi Nevera" class="w-8 h-8">
+            </a>
+            <a href="/tiporeceta" class="flex flex-col items-center">
+            <img src="{{ asset('assets/iconos/libro-de-recetas.png') }}" alt="Recetas" class="w-8 h-8">
+            </a>
+            <span class="mx-4"></span>
+            <a href="/perfil">
+                <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full border border-gray-300">
+            </a>
+        </nav>
+    </header>
+
+    <div class="container mx-auto p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">¡¡ Descubre Recetas Nuevas !!</h1>
+
+        <!-- Tarjeta de receta -->
+        <div class="space-y-4">
+            <!-- Repetir este bloque para cada receta -->
+            <div class="flex items-center bg-white rounded-lg shadow-md p-4">
+                <div class="w-1/4 bg-gray-200 rounded-lg h-24"></div>
+                <div class="ml-4 flex-1">
+                    <h2 class="text-lg font-bold text-gray-800">Pollo al Curry</h2>
+                    <p class="text-gray-600 text-sm">El pollo al curry es una receta de origen...</p>
+                    <div class="flex items-center mt-2 space-x-4">
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
+                            <span class="text-gray-600 text-xs">Dif</span>
+                        </div>
+                        <div class="text-gray-600 text-xs">Min</div>
+                        <div class="text-gray-600 text-xs">kcal</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Copia este bloque para más recetas -->
+            <div class="flex items-center bg-white rounded-lg shadow-md p-4">
+                <div class="w-1/4 bg-gray-200 rounded-lg h-24"></div>
+                <div class="ml-4 flex-1">
+                    <h2 class="text-lg font-bold text-gray-800">Pollo al Curry</h2>
+                    <p class="text-gray-600 text-sm">El pollo al curry es una receta de origen...</p>
+                    <div class="flex items-center mt-2 space-x-4">
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
+                            <span class="text-gray-600 text-xs">Dif</span>
+                        </div>
+                        <div class="text-gray-600 text-xs">Min</div>
+                        <div class="text-gray-600 text-xs">kcal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ventana emergente -->
+    <div id="modal-preguntas" style="display:none" class="fixed inset-0 bg-blue-200 bg-opacity-30 flex items-center justify-center z-50">
+        <div class="bg-gray-200 rounded-xl p-8 w-full max-w-2xl shadow-lg">
+            <h2 class="text-2xl font-bold text-center mb-6">¿Cómo te sientes hoy?</h2>
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Pregunta 1 -->
+                <div id="pregunta-1" class="bg-gray-300 rounded-lg p-6 flex-1 flex flex-col">
+                    <p class="font-semibold mb-4 text-center">¿Qué tipo de nivel te ves hoy para cocinar?</p>
+                    <div class="space-y-2 mb-4">
+                        <label class="flex items-center"><input type="radio" name="nivel" class="mr-2">Experto</label>
+                        <label class="flex items-center"><input type="radio" name="nivel" class="mr-2">Medio</label>
+                        <label class="flex items-center"><input type="radio" name="nivel" class="mr-2">Sencillo</label>
+                    </div>
+                    <button id="btn-pregunta-1" class="bg-green-100 px-4 py-2 rounded mt-auto self-end">Aceptar</button>
+                </div>
+                <!-- Pregunta 3 (oculta al inicio) -->
+                <div id="pregunta-3" class="bg-gray-300 rounded-lg p-6 flex-1 flex flex-col hidden">
+                    <p class="font-semibold mb-4 text-center">¿Cuánto tiempo quieres dedicar hoy a cocinar?</p>
+                    <div class="space-y-2 mb-4">
+                        <label class="flex items-center"><input type="radio" name="tiempo" class="mr-2">Menos de 30 min</label>
+                        <label class="flex items-center"><input type="radio" name="tiempo" class="mr-2">30-60 min</label>
+                        <label class="flex items-center"><input type="radio" name="tiempo" class="mr-2">Más de 1 hora</label>
+                    </div>
+                    <button id="btn-pregunta-3" class="bg-green-100 px-4 py-2 rounded mt-auto self-end">Aceptar</button>
+                </div>
+                <!-- Pregunta 2 -->
+                <div id="pregunta-2" class="bg-gray-300 rounded-lg p-6 flex-1 flex flex-col">
+                    <p class="font-semibold mb-4 text-center">¿Sigues alguna dieta específica?</p>
+                    <div class="space-y-2 mb-4">
+                        <label class="flex items-center"><input type="radio" name="dieta" class="mr-2">Ninguna</label>
+                        <label class="flex items-center"><input type="radio" name="dieta" class="mr-2">Vegetariana</label>
+                        <label class="flex items-center"><input type="radio" name="dieta" class="mr-2">Vegana</label>
+                        <label class="flex items-center"><input type="radio" name="dieta" class="mr-2">Sin Gluten</label>
+                    </div>
+                    <button id="btn-pregunta-2" class="bg-green-100 px-4 py-2 rounded mt-auto self-end">Aceptar</button>
+                </div>
+                <!-- Pregunta 4 (oculta al inicio) -->
+                <div id="pregunta-4" class="bg-gray-300 rounded-lg p-6 flex-1 flex flex-col hidden">
+                    <p class="font-semibold mb-4 text-center">¿Qué tipo de comida estás buscando?</p>
+                    <div class="space-y-2 mb-4">
+                        <label class="flex items-center"><input type="radio" name="personas" class="mr-2">Desayuno</label>
+                        <label class="flex items-center"><input type="radio" name="personas" class="mr-2">Almuerzo</label>
+                        <label class="flex items-center"><input type="radio" name="personas" class="mr-2">Cena</label>
+                        <label class="flex items-center"><input type="radio" name="personas" class="mr-2">Postre</label>
+                    </div>
+                    <button id="btn-pregunta-4" class="bg-green-100 px-4 py-2 rounded mt-auto self-end">Aceptar</button>
+                </div>
+            </div>
+            <div id="final-modal" class="flex justify-end mt-6">
+                <button id="cerrar-modal" class="bg-green-100 px-6 py-2 rounded">Siguiente</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/JSPaginaPrincipal.js') }}"></script>
+{% endblock %}

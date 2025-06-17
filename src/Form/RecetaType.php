@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Receta;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Form\RecetaIngredienteType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class RecetaType extends AbstractType
 {
@@ -25,6 +27,25 @@ class RecetaType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+            ])
+            ->add('imagen', FileType::class, [
+                'label' => 'Imagen de la receta',
+                'mapped' => false,
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '8M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/webp',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Por favor, sube una imagen válida (jpg, png, webp, gif)',
+                        'maxSizeMessage' => 'El archivo no debe superar los 8 MB.',
+                    ])
+                ],
             ])
         ;
     }
