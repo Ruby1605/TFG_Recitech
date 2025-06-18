@@ -6,9 +6,12 @@ use App\Repository\UsuarioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ReturnTypeWillChange;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UsuarioRepository::class)]
-class Usuario
+class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -144,5 +147,33 @@ class Usuario
         $this->etiquetas->removeElement($etiqueta);
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = [$this->rol];
+
+        // Garantiza que siempre tenga al menos ROLE_USER
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return $roles;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null; // si usas bcrypt o sodium, retorna null
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email; // o el campo que uses como identificador
+    }
+
+    #[ReturnTypeWillChange]
+    public function eraseCredentials(): void
+    {
+        // Si tienes datos temporales sensibles, bórralos aquí. Si no, deja vacío.
     }
 }

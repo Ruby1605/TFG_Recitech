@@ -32,32 +32,111 @@
 
     <!-- Contenido principal -->
     <div class="container mx-auto p-6">
-        <div class="bg-white rounded-lg shadow-lg p-8">
+        <div class="bg-white rounded-lg shadow-lg p-8 relative">
+            <!-- Botón de cerrar sesión arriba a la derecha -->
+            <form method="post" action="{{ path('app_logout') }}" class="absolute top-4 right-4">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                    Cerrar sesión
+                </button>
+            </form>
             <!-- Foto de perfil -->
             <div class="flex flex-col items-center mb-6">
                 <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-24 h-24 rounded-full border border-gray-300">
-                <h2 class="text-xl font-bold text-gray-700 mt-4">Ruben Casado</h2>
+                {% if usuario %}
+                    <h2 class="text-xl font-bold text-gray-700 mt-4">{{ usuario.nombre }}</h2>
+                {% else %}
+                    <h2 class="text-xl font-bold text-gray-700 mt-4">Invitado</h2>
+                {% endif %}
             </div>
 
-            <!-- Información del usuario -->
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-gray-600 font-medium mb-1">Nombre Apellido</label>
-                    <p class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700">Ruben Casado</p>
+            <!-- Formulario de edición de usuario -->
+            <form method="post" action="{{ path('app_perfil_editar') }}" onsubmit="return validarPasswords();">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-gray-600 font-medium mb-1" for="nombre">Nombre de usuario</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            value="{{ usuario ? usuario.nombre : '' }}"
+                            class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 font-medium mb-1" for="email">Correo Electrónico</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ usuario ? usuario.email : '' }}"
+                            class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 font-medium mb-1" for="password">Contraseña (dejar en blanco para no cambiar)</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700"
+                            placeholder="***************"
+                            autocomplete="new-password"
+                            oninput="mostrarRepetirPassword()"
+                        >
+                    </div>
+                    <!-- Campo de repetir contraseña, oculto hasta que se escriba algo en el campo de contraseña -->
+                    <div id="div-repetir-password" style="display:none;">
+                        <label class="block text-gray-600 font-medium mb-1" for="password_repeat">Repetir contraseña</label>
+                        <input
+                            type="password"
+                            id="password_repeat"
+                            name="password_repeat"
+                            class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700"
+                            placeholder="Repite la nueva contraseña"
+                            autocomplete="new-password"
+                        >
+                    </div>
+                    <!-- Mensaje de error de contraseña -->
+                    <div id="password-error" class="text-red-600 text-center mb-4" style="display:none;">
+                        Las contraseñas no coinciden.
+                    </div>
+                    <!-- Botón de guardar debajo de contraseña -->
+                    <div>
+                        <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg mt-2 hover:bg-green-600 transition">
+                            Guardar
+                        </button>
+                    </div>
+                    <div class="flex items-center">
+                        <label for="modo-oscuro" class="text-gray-600 font-medium mr-4">Modo Oscuro</label>
+                        <input type="checkbox" id="modo-oscuro" class="w-5 h-5">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-gray-600 font-medium mb-1">Correo Electrónico</label>
-                    <p class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700">Ruben.casado@email.com</p>
-                </div>
-                <div>
-                    <label class="block text-gray-600 font-medium mb-1">Contraseña</label>
-                    <p class="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700">***************</p>
-                </div>
-                <div class="flex items-center">
-                    <label for="modo-oscuro" class="text-gray-600 font-medium mr-4">Modo Oscuro</label>
-                    <input type="checkbox" id="modo-oscuro" class="w-5 h-5">
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+    <script>
+        function mostrarRepetirPassword() {
+            var pass = document.getElementById('password').value;
+            var divRepetir = document.getElementById('div-repetir-password');
+            if (pass.length > 0) {
+                divRepetir.style.display = 'block';
+            } else {
+                divRepetir.style.display = 'none';
+                document.getElementById('password_repeat').value = '';
+                document.getElementById('password-error').style.display = 'none';
+            }
+        }
+        function validarPasswords() {
+            var pass = document.getElementById('password').value;
+            var pass2 = document.getElementById('password_repeat').value;
+            if (pass.length > 0 && pass !== pass2) {
+                document.getElementById('password-error').style.display = 'block';
+                return false;
+            }
+            document.getElementById('password-error').style.display = 'none';
+            return true;
+        }
+    </script>
 {% endblock %}

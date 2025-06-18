@@ -21,15 +21,7 @@ final class MainController extends AbstractController
         return $this->render('main/acercade.html.twig');
     }
     
-    #[Route('/inicio-de-sesion', name: 'app_main_iniciosesion')]
-    public function iniciosesion(): Response
-    {
-        return $this->render('iniciosesion/iniciosesion.html.twig');
-    }
-     #[Route('/registro', name: 'app_registro')]
-    public function registrarse(): Response
-    {
-        return $this->render('registro/registro.hmtl.twig');
-    }
+   
+   
     
 }

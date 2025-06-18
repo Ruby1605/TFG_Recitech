@@ -3,11 +3,17 @@
 {% block title %}Hello AdministradorController!{% endblock %}
 
 {% block body %}
+    <h1>Pantalla de Administrador</h1>
 
-<div style="display: flex; gap: 20px;">
-    <a href="{{ path('gestion_usuarios') }}" class="btn btn-primary">Gestión de Usuarios</a>
-    <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Gestión de Recetas</a>
-    <a href="{{ path('gestion_ingredientes') }}" class="btn btn-success">Gestión de Ingredientes</a>
-</div>
+    <div style="display: flex; gap: 20px;">
+        <a href="{{ path('gestion_usuarios') }}" class="btn btn-primary">Gestión de Usuarios</a>
+        <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Gestión de Recetas</a>
+        <a href="{{ path('gestion_ingredientes') }}" class="btn btn-success">Gestión de Ingredientes</a>
+    </div>
 
+    <form method="post" action="{{ path('app_logout') }}">
+        <button type="submit" class="btn btn-danger mt-4">
+            Cerrar sesión
+        </button>
+    </form>
 {% endblock %}

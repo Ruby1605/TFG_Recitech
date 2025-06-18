@@ -13,9 +13,5 @@ class TiposRecetaController extends AbstractController
     {
         return $this->render('tiposrecetas\tiposrecetas.html.twig');
     }
-    #[Route('/perfil', name: 'app_perfil')]
-    public function perfil(): Response
-    {
-        return $this->render('perfil/perfil.html.twig');
-    }
+    
 }
