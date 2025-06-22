@@ -32,8 +32,7 @@ class MiNeveraController extends AbstractController
         $tiempoMax = $request->query->get('tiempo_max');
         $ingredientesSeleccionados = explode(',', $request->query->get('ingredientes_seleccionados', '')); // array de nombres
 
-        var_dump($ingredientesSeleccionados);
-        die();
+       
         
         $qb = $recetaRepository->createQueryBuilder('r');
 

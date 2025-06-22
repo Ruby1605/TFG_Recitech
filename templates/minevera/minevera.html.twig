@@ -44,7 +44,6 @@
             <div class="flex flex-wrap gap-2" id="ingredientes-añadidos">
                 <!-- Ingredientes añadidos dinámicamente -->
             </div>
-            <input type="hidden" name="ingredientes_seleccionados" id="ingredientes-seleccionados-hidden">
         </div>
     
         <!-- Opciones de filtro -->
@@ -75,54 +74,13 @@
                         <input type="number" id="tiempo-max" name="tiempo_max" min="0" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Ej: 30">
                     </div>
                 </div>
+                <input type="hidden" name="ingredientes_seleccionados" id="ingredientes-seleccionados-hidden">
                 <button type="submit" class="mt-6 w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition">Buscar</button>
             </form>
         </div>
 
         <!-- Resultado de recetas filtradas -->
-        {% if recetas_filtradas is defined %}
-            <div class="mt-8">
-                <h2 class="text-xl font-bold text-gray-700 mb-4">Recetas encontradas</h2>
-                <div class="space-y-8">
-                    {% for receta in recetas_filtradas %}
-                        <a href="{{ path('ver_receta', {'id': receta.id}) }}" class="block transition-transform hover:scale-105">
-                            <div class="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-lg p-8 cursor-pointer">
-                                {% if receta.imagen %}
-                                    <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}"
-                                         alt="{{ receta.nombre }}"
-                                         class="w-full max-w-xs aspect-square md:w-40 md:h-40 object-cover rounded-xl mb-4 md:mb-0 md:mr-8"
-                                         style="aspect-ratio: 1 / 1;">
-                                {% else %}
-                                    <div class="w-full max-w-xs aspect-square md:w-40 md:h-40 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400 text-lg mb-4 md:mb-0 md:mr-8"
-                                         style="aspect-ratio: 1 / 1;">
-                                        Sin foto
-                                    </div>
-                                {% endif %}
-                                <div class="flex-1 w-full">
-                                    <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center md:text-left">{{ receta.nombre }}</h2>
-                                    <div class="flex flex-row justify-center md:justify-start items-center space-x-6">
-                                        <div class="flex items-center">
-                                            {% set color = 'bg-red-500' %}
-                                            {% if receta.dificultad|lower == 'fácil' or receta.dificultad|lower == 'facil' %}
-                                                {% set color = 'bg-green-500' %}
-                                            {% elseif receta.dificultad|lower == 'media' %}
-                                                {% set color = 'bg-yellow-400' %}
-                                            {% endif %}
-                                            <span class="w-5 h-5 {{ color }} rounded-full mr-2"></span>
-                                            <span class="text-gray-700 text-lg">{{ receta.dificultad }}</span>
-                                        </div>
-                                        <div class="text-gray-700 text-lg">{{ receta.tiempo }} min</div>
-                                        <div class="text-gray-700 text-lg">{{ receta.calorias }} kcal</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    {% else %}
-                        <div class="text-center text-gray-500">No hay recetas que cumplan los filtros seleccionados.</div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
+        
     </div>
 {% endblock %}
 
