@@ -2,42 +2,49 @@
 
 {% block stylesheets %}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            background-image: url('{{ asset('assets/InicioSesion.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
     <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
-        <div class="flex items-center space-x-2">
-            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
-            <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
+         <div class="flex items-center space-x-2">
+            <a href="{{ path('app_main_index') }}" class="flex items-center space-x-2">
+                <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+                <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
+            </a>
         </div>
-        <nav class="flex items-center space-x-6">
-            <a href="/" class="text-gray-600 hover:text-green-600 font-medium">Home</a>
-        </nav>
     </header>
 
-    <div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="flex justify-center items-center min-h-screen ">
         <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
             <h2 class="text-2xl font-bold text-gray-700 text-center mb-6">Registrarse</h2>
             <form method="post" action="{{ path('app_registro') }}" onsubmit="return validarPasswords();">
                 <!-- Campo de Nombre de Usuario -->
                 <div class="mb-4">
                     <label for="username" class="block text-gray-600 font-medium mb-2">Nombre de usuario</label>
-                    <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Ingresa tu usuario">
+                    <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ingresa tu usuario">
                 </div>
                 <!-- Campo de Email -->
                 <div class="mb-4">
                     <label for="email" class="block text-gray-600 font-medium mb-2">Email</label>
-                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Ingresa tu correo electrónico">
+                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ingresa tu correo electrónico">
                 </div>
                 <!-- Campo de Contraseña -->
                 <div class="mb-4">
                     <label for="password" class="block text-gray-600 font-medium mb-2">Contraseña</label>
-                    <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Ingresa tu contraseña">
+                    <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ingresa tu contraseña">
                 </div>
                 <!-- Campo de Repetir Contraseña -->
                 <div class="mb-6">
                     <label for="password_repeat" class="block text-gray-600 font-medium mb-2">Repetir contraseña</label>
-                    <input type="password" id="password_repeat" name="password_repeat" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Repite tu contraseña">
+                    <input type="password" id="password_repeat" name="password_repeat" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Repite tu contraseña">
                 </div>
                 <!-- Mensaje de error de contraseña -->
                 <div id="password-error" class="text-red-600 text-center mb-4" style="display:none;">

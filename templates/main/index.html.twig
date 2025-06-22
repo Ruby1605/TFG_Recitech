@@ -1,7 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('{{ asset('assets/FondoPrincipal.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .font-\[inter\] { font-family: 'Inter', sans-serif; }
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -11,20 +21,33 @@
             <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
         </div>
         <nav class="flex items-center space-x-6">
-            <a href="/inicio-de-sesion" class="bg-green-100 text-green-600 px-4 py-2 rounded-lg hover:bg-green-200">
-                Empezar
+            <a href="/registro" class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
+                Registrarse
             </a>
+            <a href="/inicio-de-sesion" class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
+                Iniciar Sesión
+            </a>
+            
         </nav>
+        
+            
     </header>
 
     <!-- Imagen debajo del header con texto encima -->
-    <div class="relative mx-5 mt-6">
-        <img src="{{ asset('assets/FotoMarmol.jpg') }}" alt="Descripción de la imagen" class="w-full rounded-xl shadow-md h-64 md:h-80 object-cover">
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-            <h2 class="text-black-800 text-2xl md:text-3xl font-bold mb-4 text-center">Bienvenido a ReciTech</h2>
-            <p class="text-black-700 text-base md:text-lg font-medium text-center px-2">
-                ¿Te apasiona la cocina y estás siempre en busca de nuevas ideas para sorprender en la mesa? Bienvenido a nuestro rincón culinario, donde cada receta está pensada para inspirarte y hacer que cocinar sea una experiencia sencilla, divertida y deliciosa.
-            </p>
+    <div class="relative mx-5 mt-8">
+        <img src="{{ asset('assets/EntradaInicioPrincipal.jpg') }}" alt="Descripción de la imagen" class="w-full rounded-xl shadow-md h-96 md:h-[30rem] object-cover">
+        <div class="absolute inset-0 flex flex-col items-end justify-center pr-12">
+            <div class="w-full md:w-2/3 flex flex-col items-end">
+                <h2 class="text-4xl md:text-5xl font-medium italic font-[inter] text-right leading-tight text-gray-700" style="margin-right: 100px;">
+                    Bienvenido a<br>ReciTech
+                </h2>
+            </div>
+            <div class="w-full md:w-[90%] flex flex-col items-end">
+                <p class="mt-6 text-base md:text-lg font-bold italic font-[inter] max-w-3xl text-gray-700"
+                   style="margin-top: 120px; margin-right: 0; margin-left: 100px;">
+                    ¿Te apasiona la cocina y estás siempre en busca de nuevas ideas para sorprender en la mesa? Bienvenido a nuestro rincón culinario, donde cada receta está pensada para inspirarte y hacer que cocinar sea una experiencia sencilla, divertida y deliciosa.
+                </p>
+            </div>
         </div>
     </div>
 
@@ -33,7 +56,7 @@
         <!-- Texto a la izquierda -->
         <div class="w-full md:w-1/2">
             <h2 class="text-2xl font-bold text-gray-700 mb-4">¿Que encontraras en ReciTech?</h2>
-            <p class="text-gray-600">
+            <p class="text-gray-900">
                 En ReciTech encontrarás una amplia variedad de recetas diseñadas para inspirarte y facilitar tu experiencia
                 en la cocina. Nuestra plataforma combina innovación y creatividad para ofrecerte opciones personalizadas según 
                 tus gustos, necesidades y estilo de vida. Desde recetas rápidas y saludables hasta platos más elaborados para 
@@ -67,7 +90,7 @@
         <!-- Texto a la derecha -->
         <div class="w-full md:w-1/2">
             <h2 class="text-2xl font-bold text-gray-700 mb-4">Principales funcionalidades de ReciTech</h2>
-            <p class="text-gray-600">
+            <p class="text-gray-900">
                 En nuestra plataforma, los usuarios pueden añadir fácilmente los ingredientes que tienen a mano
                 y descubrir recetas personalizadas que se ajusten a lo que ya tienen en casa. Además, cuentan con
                 acceso a un extenso catálogo de recetas organizadas por nivel de dificultad, ideal tanto para principiantes 

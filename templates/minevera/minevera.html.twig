@@ -34,57 +34,152 @@
         <div class="bg-white rounded-lg shadow-lg p-6 w-full mb-6">
             <h2 class="text-lg font-bold text-gray-700 mb-4">Elige los ingredientes que tienes en casa</h2>
             <div class="mb-4">
-                <select id="ingredientes-select" multiple class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="Patatas">Patatas</option>
-                    <option value="Tomates">Tomates</option>
-                    <option value="Cebolla">Cebolla</option>
-                    <option value="Zanahoria">Zanahoria</option>
-                    <option value="Pollo">Pollo</option>
-                    <option value="Pescado">Pescado</option>
-                    <option value="Arroz">Arroz</option>
-                    <option value="Pasta">Pasta</option>
+                <input type="text" id="buscador-ingredientes" class="w-full px-4 py-2 mb-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Buscar ingrediente...">
+                <select id="ingredientes-select" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" size="8">
+                    {% for ingrediente in ingredientes %}
+                        <option value="{{ ingrediente.nombre }}">{{ ingrediente.nombre }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="flex flex-wrap gap-2" id="ingredientes-añadidos">
                 <!-- Ingredientes añadidos dinámicamente -->
             </div>
+            <input type="hidden" name="ingredientes_seleccionados" id="ingredientes-seleccionados-hidden">
         </div>
     
         <!-- Opciones de filtro -->
         <div class="bg-white rounded-lg shadow-lg p-6 w-full">
             <h2 class="text-lg font-bold text-gray-700 mb-4">Filtros</h2>
-            <div class="space-y-4">
-                <!-- Tipo de comida -->
-                <div>
-                    <label for="tipo-comida" class="block text-gray-600 font-medium mb-1">¿Qué comida quieres cocinar?</label>
-                    <select id="tipo-comida" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                        <option>Almuerzo</option>
-                        <option>Desayuno</option>
-                        <option>Cena</option>
-                    </select>
+            <form method="get" action="{{ path('filtrar_recetas') }}">
+                <div class="space-y-4">
+                    <!-- Nivel de receta -->
+                    <div>
+                        <label for="nivel-receta" class="block text-gray-600 font-medium mb-1">Dificultad</label>
+                        <select id="nivel-receta" name="dificultad" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option value="">Todas</option>
+                            <option value="Fácil">Fácil</option>
+                            <option value="Media">Media</option>
+                            <option value="Difícil">Difícil</option>
+                        </select>
+                    </div>
+
+                    <!-- Calorías máximas -->
+                    <div>
+                        <label for="calorias-max" class="block text-gray-600 font-medium mb-1">Calorías máximas</label>
+                        <input type="number" id="calorias-max" name="calorias_max" min="0" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Ej: 500">
+                    </div>
+
+                    <!-- Tiempo máximo -->
+                    <div>
+                        <label for="tiempo-max" class="block text-gray-600 font-medium mb-1">Tiempo máximo (minutos)</label>
+                        <input type="number" id="tiempo-max" name="tiempo_max" min="0" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Ej: 30">
+                    </div>
                 </div>
-    
-                <!-- Nivel de receta -->
-                <div>
-                    <label for="nivel-receta" class="block text-gray-600 font-medium mb-1">Nivel de Receta</label>
-                    <select id="nivel-receta" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                        <option>Todas</option>
-                        <option>Fácil</option>
-                        <option>Intermedia</option>
-                        <option>Avanzada</option>
-                    </select>
-                </div>
-    
-                <!-- Tiempo -->
-                <div>
-                    <label for="tiempo" class="block text-gray-600 font-medium mb-1">Tiempo</label>
-                    <input type="range" id="tiempo" min="0" max="120" class="w-full">
+                <button type="submit" class="mt-6 w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition">Buscar</button>
+            </form>
+        </div>
+
+        <!-- Resultado de recetas filtradas -->
+        {% if recetas_filtradas is defined %}
+            <div class="mt-8">
+                <h2 class="text-xl font-bold text-gray-700 mb-4">Recetas encontradas</h2>
+                <div class="space-y-8">
+                    {% for receta in recetas_filtradas %}
+                        <a href="{{ path('ver_receta', {'id': receta.id}) }}" class="block transition-transform hover:scale-105">
+                            <div class="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-lg p-8 cursor-pointer">
+                                {% if receta.imagen %}
+                                    <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}"
+                                         alt="{{ receta.nombre }}"
+                                         class="w-full max-w-xs aspect-square md:w-40 md:h-40 object-cover rounded-xl mb-4 md:mb-0 md:mr-8"
+                                         style="aspect-ratio: 1 / 1;">
+                                {% else %}
+                                    <div class="w-full max-w-xs aspect-square md:w-40 md:h-40 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400 text-lg mb-4 md:mb-0 md:mr-8"
+                                         style="aspect-ratio: 1 / 1;">
+                                        Sin foto
+                                    </div>
+                                {% endif %}
+                                <div class="flex-1 w-full">
+                                    <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center md:text-left">{{ receta.nombre }}</h2>
+                                    <div class="flex flex-row justify-center md:justify-start items-center space-x-6">
+                                        <div class="flex items-center">
+                                            {% set color = 'bg-red-500' %}
+                                            {% if receta.dificultad|lower == 'fácil' or receta.dificultad|lower == 'facil' %}
+                                                {% set color = 'bg-green-500' %}
+                                            {% elseif receta.dificultad|lower == 'media' %}
+                                                {% set color = 'bg-yellow-400' %}
+                                            {% endif %}
+                                            <span class="w-5 h-5 {{ color }} rounded-full mr-2"></span>
+                                            <span class="text-gray-700 text-lg">{{ receta.dificultad }}</span>
+                                        </div>
+                                        <div class="text-gray-700 text-lg">{{ receta.tiempo }} min</div>
+                                        <div class="text-gray-700 text-lg">{{ receta.calorias }} kcal</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% else %}
+                        <div class="text-center text-gray-500">No hay recetas que cumplan los filtros seleccionados.</div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/JsMiNevera.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const buscador = document.getElementById('buscador-ingredientes');
+    const select = document.getElementById('ingredientes-select');
+    const contenedorAñadidos = document.getElementById('ingredientes-añadidos');
+    const hidden = document.getElementById('ingredientes-seleccionados-hidden');
+    const form = select.closest('form');
+
+    let ingredientesSeleccionados = [];
+
+    // Buscar ingredientes en el select
+    buscador.addEventListener('input', function() {
+        const filtro = buscador.value.toLowerCase();
+        Array.from(select.options).forEach(option => {
+            option.style.display = option.text.toLowerCase().includes(filtro) ? '' : 'none';
+        });
+    });
+
+    // Añadir ingrediente al listado visual al hacer click en el select
+    select.addEventListener('change', function() {
+        const seleccionado = select.value;
+        if (seleccionado && !ingredientesSeleccionados.includes(seleccionado)) {
+            ingredientesSeleccionados.push(seleccionado);
+            actualizarListado();
+        }
+        select.selectedIndex = -1; // Deselecciona para permitir volver a seleccionar el mismo ingrediente tras eliminarlo
+    });
+
+    // Eliminar ingrediente al hacer click en la "x"
+    contenedorAñadidos.addEventListener('click', function(e) {
+        if (e.target.classList.contains('eliminar-ingrediente')) {
+            const nombre = e.target.getAttribute('data-nombre');
+            ingredientesSeleccionados = ingredientesSeleccionados.filter(i => i !== nombre);
+            actualizarListado();
+        }
+    });
+
+    // Actualiza el listado visual y el campo oculto
+    function actualizarListado() {
+        contenedorAñadidos.innerHTML = '';
+        ingredientesSeleccionados.forEach(nombre => {
+            const span = document.createElement('span');
+            span.className = 'bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-2 mb-2 flex items-center';
+            span.innerHTML = nombre + ' <button type="button" class="ml-2 eliminar-ingrediente text-red-600 font-bold" data-nombre="' + nombre + '">&times;</button>';
+            contenedorAñadidos.appendChild(span);
+        });
+        hidden.value = ingredientesSeleccionados.join(',');
+    }
+
+    // Al enviar el formulario, actualiza el campo oculto
+    form.addEventListener('submit', function() {
+        hidden.value = ingredientesSeleccionados.join(',');
+    });
+});
+</script>
 {% endblock %}

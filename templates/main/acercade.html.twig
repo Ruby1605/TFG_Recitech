@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            background-image: url('{{ asset('assets/FondoPrincipal.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
     <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
-        <div class="flex items-center space-x-2">
-            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
-            <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
-        </div>
-        <nav class="flex items-center space-x-6">
-            <a href="/acerca-de" class="bg-green-100 text-green-600 px-4 py-2 rounded-lg hover:bg-green-200">
-                Empezar
+       <div class="flex items-center space-x-2">
+            <a href="{{ path('app_main_index') }}" class="flex items-center space-x-2">
+                <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+                <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
             </a>
-        </nav>
+        </div>
     </header>
     <main class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Acerca de ReciTech</h2>
@@ -35,12 +40,7 @@
         </p>
     </main>
     
-    <footer class="bg-black text-white py-6 mt-10 rounded-xl mx-5">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <span class="text-sm mb-2 md:mb-0">&copy; {{ "now"|date("Y") }} ReciTech. Todos los derechos reservados.</span>
-            <a href="/acerca-de" class="text-green-400 hover:underline text-sm">Acerca de</a>
-        </div>
-    </footer>
+    
 {% endblock %}
 {% block javascripts %}
 <script src="{{ asset('js/JavaScript.js') }}"></script>
