@@ -20,47 +20,69 @@
             <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
             <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
         </div>
-        <nav class="flex items-center space-x-6">
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-button" class="md:hidden flex items-center px-3 py-2 border rounded text-blue-600 border-blue-600 focus:outline-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+        <!-- Desktop nav -->
+        <nav class="hidden md:flex items-center space-x-6">
             <a href="/registro" class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
                 Registrarse
             </a>
             <a href="/inicio-de-sesion" class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
                 Iniciar Sesión
             </a>
-            
         </nav>
-        
-            
     </header>
+    <!-- Mobile nav -->
+    <nav id="mobile-menu" class="md:hidden hidden flex-col space-y-2 bg-white shadow-md rounded-xl mx-5 mt-2 p-4">
+        <a href="/registro" class="block bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
+            Registrarse
+        </a>
+        <a href="/inicio-de-sesion" class="block bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
+            Iniciar Sesión
+        </a>
+    </nav>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            btn.addEventListener('click', function () {
+                menu.classList.toggle('hidden');
+            });
+        });
+    </script>
 
     <!-- Imagen debajo del header con texto encima -->
     <div class="relative mx-5 mt-8">
-        <img src="{{ asset('assets/EntradaInicioPrincipal.jpg') }}" alt="Descripción de la imagen" class="w-full rounded-xl shadow-md h-96 md:h-[30rem] object-cover">
-        <div class="absolute inset-0 flex flex-col items-end justify-center pr-12">
-            <div class="w-full md:w-2/3 flex flex-col items-end">
-                <h2 class="text-4xl md:text-5xl font-medium italic font-[inter] text-right leading-tight text-gray-700" style="margin-right: 100px;">
-                    Bienvenido a<br>ReciTech
-                </h2>
-            </div>
-            <div class="w-full md:w-[90%] flex flex-col items-end">
-                <p class="mt-6 text-base md:text-lg font-bold italic font-[inter] max-w-3xl text-gray-700"
-                   style="margin-top: 120px; margin-right: 0; margin-left: 100px;">
-                    ¿Te apasiona la cocina y estás siempre en busca de nuevas ideas para sorprender en la mesa? Bienvenido a nuestro rincón culinario, donde cada receta está pensada para inspirarte y hacer que cocinar sea una experiencia sencilla, divertida y deliciosa.
-                </p>
-            </div>
+        <picture>
+            <source srcset="{{ asset('assets/MarmolBlanco.jpg') }}" media="(max-width: 767px)">
+            <img src="{{ asset('assets/EntradaInicioPrincipal.jpg') }}" alt="Descripción de la imagen" class="w-full rounded-xl shadow-md h-96 md:h-[45rem] object-cover">
+        </picture>
+        <div class="absolute inset-0 flex flex-col justify-center items-end md:items-end px-6 md:px-12">
+            <h2 class="text-3xl md:text-5xl font-medium italic font-[inter] text-right leading-tight text-gray-700 mb-4 md:mb-8 md:mr-24 md:mt-24">
+                Bienvenido a<br>ReciTech
+            </h2>
+            <p class="text-base md:text-lg font-bold italic font-[inter] max-w-2xl text-gray-700 text-right md:mr-12 md:mt-8"
+               style="font-size: 1.2rem;">
+                ¿Te apasiona la cocina y estás siempre en busca de nuevas ideas para sorprender en la mesa? Bienvenido a nuestro rincón culinario, donde cada receta está pensada para inspirarte y hacer que cocinar sea una experiencia sencilla, divertida y deliciosa.
+            </p>
         </div>
     </div>
 
     <!-- Bloque texto + imagen (responsive) -->
     <div class="mx-5 mt-6 flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 bg-white rounded-xl shadow-md p-6" style="background-image: url('{{ asset('assets/MarmolBlanco.jpg') }}'); background-size: cover; background-position: center;">
         <!-- Texto a la izquierda -->
-        <div class="w-full md:w-1/2">
-            <h2 class="text-2xl font-bold text-gray-700 mb-4">¿Que encontraras en ReciTech?</h2>
-            <p class="text-gray-900">
+        <div class="w-full md:w-1/2 flex flex-col justify-center">
+            <h2 class="text-2xl font-bold text-gray-700 mb-4 text-center mt-0">¿Qué encontrarás en ReciTech?</h2>
+            <div class="mb-4"></div>
+            <p class="text-black text-lg md:text-xl">
                 En ReciTech encontrarás una amplia variedad de recetas diseñadas para inspirarte y facilitar tu experiencia
                 en la cocina. Nuestra plataforma combina innovación y creatividad para ofrecerte opciones personalizadas según 
                 tus gustos, necesidades y estilo de vida. Desde recetas rápidas y saludables hasta platos más elaborados para 
-                ocasiones especiales, nuestro objetivo es ayudarte a disfrutar del arte de cocinar de manera sencilla posible.
+                ocasiones especiales, nuestro objetivo es ayudarte a disfrutar del arte de cocinar de la manera más sencilla posible.
             </p>
         </div>
         <!-- Imagen a la derecha -->
@@ -88,15 +110,15 @@
             </div>
         </div>
         <!-- Texto a la derecha -->
-        <div class="w-full md:w-1/2">
+        <div class="w-full md:w-1/2 flex flex-col justify-center" style="margin-top: 60px;">
             <h2 class="text-2xl font-bold text-gray-700 mb-4">Principales funcionalidades de ReciTech</h2>
-            <p class="text-gray-900">
-                En nuestra plataforma, los usuarios pueden añadir fácilmente los ingredientes que tienen a mano
-                y descubrir recetas personalizadas que se ajusten a lo que ya tienen en casa. Además, cuentan con
-                acceso a un extenso catálogo de recetas organizadas por nivel de dificultad, ideal tanto para principiantes 
-                como para cocineros experimentados. Cada receta incluye atributos detallados como tiempo de preparación, tipo 
-                de comida, nivel de dificultad y opciones dietéticas, permitiendo a cada usuario encontrar platos que se adapten
-                perfectamente a sus gustos, necesidades y estilo de vida.
+            <p class="text-black text-lg md:text-xl">
+            En nuestra plataforma, los usuarios pueden añadir fácilmente los ingredientes que tienen a mano
+            y descubrir recetas personalizadas que se ajusten a lo que ya tienen en casa. Además, cuentan con
+            acceso a un extenso catálogo de recetas organizadas por nivel de dificultad, ideal tanto para principiantes 
+            como para cocineros experimentados. Cada receta incluye atributos detallados como tiempo de preparación, tipo 
+            de comida y nivel de dificultad , permitiendo a cada usuario encontrar platos que se adapten
+            perfectamente a sus gustos, necesidades y estilo de vida.
             </p>
         </div>
     </div>

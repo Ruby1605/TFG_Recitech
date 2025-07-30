@@ -25,9 +25,6 @@ class Receta
     #[ORM\Column(type: Types::TEXT)]
     private ?string $explicacion = null;
 
-    #[ORM\Column]
-    private ?int $calorias = null;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $imagen = null;
 
@@ -45,6 +42,15 @@ class Receta
      */
     #[ORM\OneToMany(mappedBy: 'receta', targetEntity: RecetaIngrediente::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $recetaIngredientes;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $palabrasClave = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $nacionalidad = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $porciones = null;
 
     public function __construct()
     {
@@ -89,18 +95,6 @@ class Receta
     public function setExplicacion(string $explicacion): static
     {
         $this->explicacion = $explicacion;
-
-        return $this;
-    }
-
-    public function getCalorias(): ?int
-    {
-        return $this->calorias;
-    }
-
-    public function setCalorias(int $calorias): static
-    {
-        $this->calorias = $calorias;
 
         return $this;
     }
@@ -179,6 +173,42 @@ class Receta
                 $recetaIngrediente->setReceta(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPalabrasClave(): ?string
+    {
+        return $this->palabrasClave;
+    }
+
+    public function setPalabrasClave(?string $palabrasClave): static
+    {
+        $this->palabrasClave = $palabrasClave;
+
+        return $this;
+    }
+
+    public function getNacionalidad(): ?string
+    {
+        return $this->nacionalidad;
+    }
+
+    public function setNacionalidad(string $nacionalidad): static
+    {
+        $this->nacionalidad = $nacionalidad;
+
+        return $this;
+    }
+
+    public function getPorciones(): ?int
+    {
+        return $this->porciones;
+    }
+
+    public function setPorciones(?int $porciones): static
+    {
+        $this->porciones = $porciones;
 
         return $this;
     }

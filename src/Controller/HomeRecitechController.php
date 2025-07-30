@@ -32,4 +32,19 @@ final class HomeRecitechController extends AbstractController
             'receta' => $receta,
         ]);
     }
+    
+    #[Route('/valornutricional/{id}', name: 'valor_nutricional')]
+    public function valorNutricional(int $id, RecetaRepository $recetaRepository): Response
+    {
+        $receta = $recetaRepository->find($id);
+
+        if (!$receta) {
+            throw $this->createNotFoundException('Receta no encontrada');
+        }
+
+        return $this->render('homerecitech/valornutricional.html.twig', [
+            'receta' => $receta,
+        ]);
+    }
+
 }

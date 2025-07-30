@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Detalle de la Receta{% endblock %}
-
 {% block body %}
 <div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
      style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
@@ -25,7 +24,6 @@
                         <li class="list-group-item"><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
                         <li class="list-group-item"><strong>Tiempo:</strong> {{ receta.tiempo }}</li>
                         <li class="list-group-item"><strong>Descripción:</strong> {{ receta.explicacion }}</li>
-                        <li class="list-group-item"><strong>Calorías:</strong> {{ receta.calorias }}</li>
                     </ul>
                     <h5 class="mt-4">Ingredientes:</h5>
                     <ul class="list-group list-group-flush mb-3">
@@ -44,4 +42,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

@@ -20,7 +20,6 @@ class RecetaType extends AbstractType
             ->add('explicacion')
             ->add('tiempo')
             ->add('dificultad')
-            ->add('calorias')
             ->add('recetaIngredientes', CollectionType::class, [
                 'entry_type' => RecetaIngredienteType::class,
                 'entry_options' => ['label' => false],
