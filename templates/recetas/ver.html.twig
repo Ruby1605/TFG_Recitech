@@ -23,6 +23,18 @@
                         <li class="list-group-item"><strong>Nombre:</strong> {{ receta.nombre }}</li>
                         <li class="list-group-item"><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
                         <li class="list-group-item"><strong>Tiempo:</strong> {{ receta.tiempo }}</li>
+                        <li class="list-group-item"><strong>Nacionalidad:</strong> {{ receta.nacionalidad }}</li>
+                        <li class="list-group-item"><strong>Porciones:</strong> {{ receta.porciones }}</li>
+                        <li class="list-group-item"><strong>Palabras clave:</strong>
+                            {% if receta.palabrasClave %}
+                                {% set palabras = receta.palabrasClave|split(',') %}
+                                {% for palabra in palabras %}
+                                    <span class="badge bg-info text-dark me-1">{{ palabra|trim }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="text-muted">Sin palabras clave</span>
+                            {% endif %}
+                        </li>
                         <li class="list-group-item"><strong>Descripción:</strong> {{ receta.explicacion }}</li>
                     </ul>
                     <h5 class="mt-4">Ingredientes:</h5>

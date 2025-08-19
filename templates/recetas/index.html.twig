@@ -20,6 +20,8 @@
                     <th>Nombre</th>
                     <th>Dificultad</th>
                     <th>Tiempo</th>
+                    <th>Nacionalidad</th>
+                    <th>Porciones</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -30,6 +32,8 @@
                         <td>{{ receta.nombre }}</td>
                         <td>{{ receta.dificultad }}</td>
                         <td>{{ receta.tiempo }}</td>
+                        <td>{{ receta.nacionalidad }}</td>
+                        <td>{{ receta.porciones }}</td>
                         <td>
                             <a href="{{ path('receta_ver', {'id': receta.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Ver</a>
                             <a href="{{ path('receta_editar', {'id': receta.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Editar</a>
@@ -39,7 +43,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5" class="text-center">No hay recetas disponibles.</td>
+                        <td colspan="7" class="text-center">No hay recetas disponibles.</td>
                     </tr>
                 {% endfor %}
             </tbody>

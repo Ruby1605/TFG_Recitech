@@ -1,0 +1,48 @@
+/* Tailwind utility classes para index.html.twig administrador */
+
+/* Fondo y fuente */
+body {
+    @apply bg-cover bg-no-repeat bg-fixed font-[inter];
+    background-image: url('../assets/FondoPantallaAdministrador.jpg');
+}
+
+/* Contenedor principal */
+.admin-container {
+    @apply flex justify-center items-center min-h-screen;
+}
+
+/* Tarjeta */
+.admin-card {
+    @apply bg-white rounded-lg shadow-lg p-8 w-full max-w-md;
+}
+
+/* Título */
+.admin-title {
+    @apply text-2xl font-bold text-gray-700 text-center mb-8;
+}
+
+/* Botones de navegación */
+.admin-nav {
+    @apply flex flex-col gap-6 items-center;
+}
+
+.admin-btn {
+    @apply w-64 py-2 rounded-lg text-white text-lg font-semibold text-center transition shadow;
+}
+
+.admin-btn-usuarios {
+    @apply bg-blue-500 hover:bg-blue-600;
+}
+
+.admin-btn-recetas {
+    @apply bg-gray-500 hover:bg-gray-600;
+}
+
+.admin-btn-ingredientes {
+    @apply bg-green-600 hover:bg-green-700;
+}
+
+/* Botón cerrar sesión */
+.admin-logout {
+    @apply mt-8 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded shadow transition;
+}

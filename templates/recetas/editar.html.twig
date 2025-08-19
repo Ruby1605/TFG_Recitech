@@ -17,6 +17,23 @@
                         {{ form_row(form.explicacion) }}
                         {{ form_row(form.tiempo) }}
                         {{ form_row(form.dificultad) }}
+                        {{ form_row(form.nacionalidad) }}
+                        {{ form_row(form.porciones) }}
+
+                        <!-- Palabras clave -->
+                        <div class="mb-3">
+                            <label class="form-label">Palabras clave</label>
+                            {{ form_row(form.palabrasClave) }}
+                            <div class="mt-2">
+                                {% set palabras = [
+                                    'Postre', 'carne', 'fruta', 'verduras', 'salsa', 'horno', 'almuerzo', 'asado', 'desayuno', 'pescado',
+                                    'saludable', 'patatas', 'pollo', 'vegana', 'queso', 'cerdo'
+                                ] %}
+                                {% for palabra in palabras %}
+                                    <span class="badge bg-info text-dark palabra-clave-badge" style="cursor:pointer; margin:2px;" data-palabra="{{ palabra }}">{{ palabra }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
 
                         <h5>Ingredientes</h5>
                         <div id="receta_ingredientes"
@@ -73,6 +90,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target && e.target.classList.contains('eliminar-ingrediente')) {
             e.target.closest('.ingrediente-item').remove();
         }
+    });
+
+    // Palabras clave
+    const input = document.getElementById('receta_palabrasClave');
+    document.querySelectorAll('.palabra-clave-badge').forEach(function(badge) {
+        badge.addEventListener('click', function() {
+            const palabra = badge.getAttribute('data-palabra');
+            let actuales = input.value.split(',').map(e => e.trim()).filter(e => e.length > 0);
+            if (!actuales.includes(palabra)) {
+                actuales.push(palabra);
+                input.value = actuales.join(', ');
+            }
+        });
     });
 });
 </script>
