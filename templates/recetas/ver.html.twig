@@ -1,58 +1,70 @@
 {% extends 'base.html.twig' %}
 
+{# Título de la página #}
 {% block title %}Detalle de la Receta{% endblock %}
+
 {% block body %}
-<div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
-     style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
-</div>
-<div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1; max-width: 500px;">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-info text-white">
-                    <h3 class="mb-0">Detalle de la Receta</h3>
-                </div>
-                <div class="card-body">
-                    {% if receta.imagen %}
-                        <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}" alt="Imagen de la receta" class="img-fluid mb-3">
-                    {% else %}
-                        <div class="alert alert-warning mt-2">No hay imagen para esta receta.</div>
-                    {% endif %}
-                    <ul class="list-group list-group-flush mb-3">
-                        <li class="list-group-item"><strong>ID:</strong> {{ receta.id }}</li>
-                        <li class="list-group-item"><strong>Nombre:</strong> {{ receta.nombre }}</li>
-                        <li class="list-group-item"><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
-                        <li class="list-group-item"><strong>Tiempo:</strong> {{ receta.tiempo }}</li>
-                        <li class="list-group-item"><strong>Nacionalidad:</strong> {{ receta.nacionalidad }}</li>
-                        <li class="list-group-item"><strong>Porciones:</strong> {{ receta.porciones }}</li>
-                        <li class="list-group-item"><strong>Palabras clave:</strong>
-                            {% if receta.palabrasClave %}
-                                {% set palabras = receta.palabrasClave|split(',') %}
-                                {% for palabra in palabras %}
-                                    <span class="badge bg-info text-dark me-1">{{ palabra|trim }}</span>
-                                {% endfor %}
-                            {% else %}
-                                <span class="text-muted">Sin palabras clave</span>
-                            {% endif %}
-                        </li>
-                        <li class="list-group-item"><strong>Descripción:</strong> {{ receta.explicacion }}</li>
-                    </ul>
-                    <h5 class="mt-4">Ingredientes:</h5>
-                    <ul class="list-group list-group-flush mb-3">
-                        {% for recetaIngrediente in receta.recetaIngredientes %}
-                            <li class="list-group-item">
-                                <strong>{{ recetaIngrediente.ingrediente.nombre }}</strong>
-                                — {{ recetaIngrediente.cantidad }}
-                            </li>
+    {# Fondo de pantalla fijo para toda la página #}
+    <div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
+         style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
+    </div>
+
+    {# Contenedor principal blanco translúcido y centrado #}
+    <div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1; max-width: 500px;">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    {# Cabecera de la tarjeta con título #}
+                    <div class="card-header bg-info text-white">
+                        <h3 class="mb-0">Detalle de la Receta</h3>
+                    </div>
+                    <div class="card-body">
+                        {# Imagen de la receta o aviso si no hay imagen #}
+                        {% if receta.imagen %}
+                            <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}" alt="Imagen de la receta" class="img-fluid mb-3">
                         {% else %}
-                            <li class="list-group-item text-muted">No hay ingredientes para esta receta.</li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Volver al listado</a>
+                            <div class="alert alert-warning mt-2">No hay imagen para esta receta.</div>
+                        {% endif %}
+
+                        {# Lista de atributos principales de la receta #}
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item"><strong>ID:</strong> {{ receta.id }}</li>
+                            <li class="list-group-item"><strong>Nombre:</strong> {{ receta.nombre }}</li>
+                            <li class="list-group-item"><strong>Dificultad:</strong> {{ receta.dificultad }}</li>
+                            <li class="list-group-item"><strong>Tiempo:</strong> {{ receta.tiempo }}</li>
+                            <li class="list-group-item"><strong>Nacionalidad:</strong> {{ receta.nacionalidad }}</li>
+                            <li class="list-group-item"><strong>Porciones:</strong> {{ receta.porciones }}</li>
+                            <li class="list-group-item"><strong>Palabras clave:</strong>
+                                {% if receta.palabrasClave %}
+                                    {% set palabras = receta.palabrasClave|split(',') %}
+                                    {% for palabra in palabras %}
+                                        <span class="badge bg-info text-dark me-1">{{ palabra|trim }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="text-muted">Sin palabras clave</span>
+                                {% endif %}
+                            </li>
+                            <li class="list-group-item"><strong>Descripción:</strong> {{ receta.explicacion }}</li>
+                        </ul>
+
+                        {# Lista de ingredientes de la receta #}
+                        <h5 class="mt-4">Ingredientes:</h5>
+                        <ul class="list-group list-group-flush mb-3">
+                            {% for recetaIngrediente in receta.recetaIngredientes %}
+                                <li class="list-group-item">
+                                    <strong>{{ recetaIngrediente.ingrediente.nombre }}</strong>
+                                    — {{ recetaIngrediente.cantidad }}
+                                </li>
+                            {% else %}
+                                <li class="list-group-item text-muted">No hay ingredientes para esta receta.</li>
+                            {% endfor %}
+                        </ul>
+
+                        {# Botón para volver al listado de recetas #}
+                        <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary">Volver al listado</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 {% endblock %}

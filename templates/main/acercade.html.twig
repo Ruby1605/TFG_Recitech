@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{# Bloque de estilos: Tailwind y fondo de pantalla principal #}
 {% block stylesheets %}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
@@ -13,6 +14,7 @@
 {% endblock %}
 
 {% block body %}
+    {# Cabecera con logo y nombre de la aplicación #}
     <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
        <div class="flex items-center space-x-2">
             <a href="{{ path('app_main_index') }}" class="flex items-center space-x-2">
@@ -21,6 +23,8 @@
             </a>
         </div>
     </header>
+
+    {# Contenido principal: sección "Acerca de" centrada y con fondo blanco #}
     <main class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md">
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Acerca de ReciTech</h2>
         <p class="mb-4 text-gray-700">
@@ -31,16 +35,15 @@
         </p>
         <ul class="list-disc pl-6 mb-4 text-gray-700">
             <li>Herramientas inteligentes para identificar y clasificar ingredientes.</li>
-            <li>Recursos educativos y guías prácticas sobre sostenibilidad.</li>
-            <li>Espacios de comunidad para compartir experiencias y aprender juntos.</li>
+            <li>Guías prácticas sobre una buena alimentación.</li>  
         </ul>
         <p class="text-gray-700">
             En ReciTech, apostamos por la colaboración. Te invitamos a formar parte de nuestra comunidad y a contribuir activamente en la construcción de un futuro más limpio y sostenible.
         </p>
     </main>
-    
-    
 {% endblock %}
+
+{# Bloque para scripts JS adicionales #}
 {% block javascripts %}
 <script src="{{ asset('js/JavaScript.js') }}"></script>
 {% endblock %}

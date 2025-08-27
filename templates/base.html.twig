@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {# Metadatos principales y título de la página #}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Recitech - Recomendador de Recetas{% endblock %}</title>
+        {# Favicon en SVG incrustado #}
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         <!-- Bootstrap CSS via CDN -->
         {% block stylesheets %}
@@ -11,6 +13,7 @@
         {% endblock %}
     </head>
     <body>
+        {# Bloque principal del cuerpo de la página #}
         {% block body %}{% endblock %}
         <!-- Bootstrap JS Bundle (includes Popper) via CDN -->
         {% block javascripts %}

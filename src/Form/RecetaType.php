@@ -14,20 +14,35 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * Formulario para crear o editar una receta.
+ * Incluye campos para nombre, explicación, tiempo, dificultad, porciones, palabras clave,
+ * ingredientes (colección), imagen y nacionalidad.
+ */
 class RecetaType extends AbstractType
 {
+    /**
+     * Construye el formulario de receta.
+     * Define los campos y sus tipos, incluyendo la colección de ingredientes.
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Nombre de la receta
             ->add('nombre')
+            // Explicación o pasos de la receta
             ->add('explicacion')
+            // Tiempo de preparación
             ->add('tiempo')
+            // Dificultad de la receta
             ->add('dificultad')
+            // Número de porciones
             ->add('porciones', IntegerType::class, [
                 'label' => 'Porciones',
                 'required' => true,
                 'attr' => ['min' => 1],
             ])
+            // Palabras clave (separadas por comas)
             ->add('palabrasClave', TextType::class, [
                 'label' => 'Palabras clave (separadas por comas)',
                 'required' => false,
@@ -35,6 +50,7 @@ class RecetaType extends AbstractType
                     'placeholder' => 'Ejemplo: postre, saludable, horno'
                 ],
             ])
+            // Colección de ingredientes de la receta
             ->add('recetaIngredientes', CollectionType::class, [
                 'entry_type' => RecetaIngredienteType::class,
                 'entry_options' => ['label' => false],
@@ -42,12 +58,14 @@ class RecetaType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
+            // Imagen de la receta (opcional)
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen de la receta',
                 'mapped' => false,
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
+            // Nacionalidad de la receta (select desplegable)
             ->add('nacionalidad', ChoiceType::class, [
                 'choices' => [
                     'Mexicana' => 'Mexicana',
@@ -68,6 +86,10 @@ class RecetaType extends AbstractType
         ;
     }
 
+    /**
+     * Configura las opciones del formulario.
+     * Asocia el formulario con la entidad Receta.
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

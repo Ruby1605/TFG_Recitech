@@ -1,94 +1,141 @@
 {% extends 'base.html.twig' %}
 
+{# Título de la página #}
 {% block title %}Nueva Receta{% endblock %}
 
-
+{# Bloque de estilos: incluye Select2 para el buscador de ingredientes #}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1 class="mb-4">Crear nueva receta</h1>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    {% for label, messages in app.flashes %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ label }} mt-3">
-                                {{ message }}
-                            </div>
+    {# Fondo de pantalla fijo detrás de todo el contenido #}
+    <div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
+        style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
+    </div>
+    {# Contenedor principal blanco translúcido y centrado #}
+    <div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1; max-width: 500px;">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <h1 class="mb-4">Crear nueva receta</h1>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {# Mensajes flash para notificaciones (éxito, error, etc.) #}
+                        {% for label, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }} mt-3">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
 
-                    {% if receta.imagen %}
-                        <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}" alt="Foto de la receta" class="img-fluid mb-3">
-                    {% endif %}
-                    {{ form_start(form) }}
-                        {{ form_row(form.nombre) }}
-                        {{ form_row(form.explicacion) }}
-                        {{ form_row(form.tiempo) }}
-                        {{ form_row(form.dificultad) }}
-                        {{ form_row(form.nacionalidad) }}
-                        {{ form_row(form.porciones) }}
+                        {# Imagen previa de la receta si existe #}
+                        {% if receta.imagen %}
+                            <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}" alt="Foto de la receta" class="img-fluid mb-3">
+                        {% endif %}
 
-                        <!-- Palabras clave -->
-                        <div class="mb-3">
-                            <label class="form-label">Palabras clave</label>
-                            {{ form_row(form.palabrasClave) }}
-                            <div class="mt-2">
-                                {% set palabras = [
-                                    'Postre', 'carne', 'fruta', 'verduras', 'salsa', 'horno', 'almuerzo', 'asado', 'desayuno', 'pescado',
-                                    'saludable', 'patatas', 'pollo', 'vegana', 'queso', 'cerdo'
-                                ] %}
-                                {% for palabra in palabras %}
-                                    <span class="badge bg-info text-dark palabra-clave-badge" style="cursor:pointer; margin:2px;" data-palabra="{{ palabra }}">{{ palabra }}</span>
-                                {% endfor %}
+                        {# Formulario de creación de receta #}
+                        {{ form_start(form) }}
+                            {{ form_row(form.nombre) }}
+                            {{ form_row(form.explicacion) }}
+                            {{ form_row(form.tiempo) }}
+                            {{ form_row(form.dificultad) }}
+                            {{ form_row(form.nacionalidad) }}
+                            {{ form_row(form.porciones) }}
+
+                            {# Palabras clave con sugerencias rápidas #}
+                            <div class="mb-3">
+                                <label class="form-label">Palabras clave</label>
+                                {{ form_row(form.palabrasClave) }}
+                                <div class="mt-2">
+                                    {% set palabras = [
+                                        'Postre', 'carne', 'fruta', 'verduras', 'salsa', 'horno', 'almuerzo', 'asado', 'desayuno', 'pescado',
+                                        'saludable', 'patatas', 'pollo', 'vegana', 'queso', 'cerdo'
+                                    ] %}
+                                    {% for palabra in palabras %}
+                                        <span class="badge bg-info text-dark palabra-clave-badge" style="cursor:pointer; margin:2px;" data-palabra="{{ palabra }}">{{ palabra }}</span>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        </div>
 
-                        <h5>Ingredientes</h5>
-                        <div id="receta_ingredientes"
-                             data-prototype="{{ form_widget(form.recetaIngredientes.vars.prototype)|e('html_attr') }}">
-                            {{ form_widget(form.recetaIngredientes) }}
-                        </div>
-                        <button type="button" class="btn btn-info mt-2" id="add-ingrediente">Añadir ingrediente</button>
+                            {# Ingredientes de la receta (colección dinámica) #}
+                            <h5>Ingredientes</h5>
+                            <div id="receta_ingredientes"
+                                 data-prototype="{{ form_widget(form.recetaIngredientes.vars.prototype)|e('html_attr') }}">
+                                {{ form_widget(form.recetaIngredientes) }}
+                            </div>
+                            <button type="button" class="btn btn-info mt-2" id="add-ingrediente">Añadir ingrediente</button>
 
-                        {{ form_row(form.imagen) }}
+                            {# Campo para subir imagen de la receta #}
+                            {{ form_row(form.imagen) }}
 
-                        <button class="btn btn-success mt-3">Guardar</button>
-                    {{ form_end(form) }}
-                    <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary mt-3">Volver al listado</a>
+                            {# Botón para guardar la receta #}
+                            <button class="btn btn-success mt-3">Guardar</button>
+                        {{ form_end(form) }}
+
+                        {# Botón para volver al listado de recetas #}
+                        <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary mt-3">Volver al listado</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var collectionHolder = document.getElementById('receta_ingredientes');
-    var addButton = document.getElementById('add-ingrediente');
-    var index = collectionHolder.children.length;
 
-    addButton.addEventListener('click', function() {
-        var prototype = collectionHolder.dataset.prototype;
-        var newForm = prototype.replace(/__name__/g, index);
-        var div = document.createElement('div');
-        div.innerHTML = newForm;
-        collectionHolder.appendChild(div);
-        index++;
-    });
+    {# Script para gestión dinámica de ingredientes y palabras clave #}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var collectionHolder = document.getElementById('receta_ingredientes');
+        var addButton = document.getElementById('add-ingrediente');
+        var index = collectionHolder.children.length;
 
-    // Palabras clave
-    const input = document.getElementById('receta_palabrasClave');
-    document.querySelectorAll('.palabra-clave-badge').forEach(function(badge) {
-        badge.addEventListener('click', function() {
-            const palabra = badge.getAttribute('data-palabra');
-            let actuales = input.value.split(',').map(e => e.trim()).filter(e => e.length > 0);
-            if (!actuales.includes(palabra)) {
-                actuales.push(palabra);
-                input.value = actuales.join(', ');
-            }
+        addButton.addEventListener('click', function() {
+            var prototype = collectionHolder.dataset.prototype;
+            var newForm = prototype.replace(/__name__/g, index);
+            var div = document.createElement('div');
+            div.innerHTML = newForm;
+            collectionHolder.appendChild(div);
+            index++;
+        });
+
+        // Palabras clave
+        const input = document.getElementById('receta_palabrasClave');
+        document.querySelectorAll('.palabra-clave-badge').forEach(function(badge) {
+            badge.addEventListener('click', function() {
+                const palabra = badge.getAttribute('data-palabra');
+                let actuales = input.value.split(',').map(e => e.trim()).filter(e => e.length > 0);
+                if (!actuales.includes(palabra)) {
+                    actuales.push(palabra);
+                    input.value = actuales.join(', ');
+                }
+            });
         });
     });
-});
-</script>
+    </script>
+{% endblock %}
+
+{# Bloque de scripts JS: incluye Select2 solo para los selects de ingredientes #}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Función para aplicar select2 solo a los selects de ingredientes
+            function aplicarSelect2Ingredientes() {
+                document.querySelectorAll('#receta_ingredientes select').forEach(function(select) {
+                    if (!select.classList.contains('select2-hidden-accessible')) {
+                        $(select).select2({
+                            width: '100%',
+                            placeholder: 'Selecciona un ingrediente'
+                        });
+                    }
+                });
+            }
+            aplicarSelect2Ingredientes();
+
+            // Si añades ingredientes dinámicamente, vuelve a aplicar select2
+            const observer = new MutationObserver(aplicarSelect2Ingredientes);
+            observer.observe(document.getElementById('receta_ingredientes'), { childList: true, subtree: true });
+        });
+    </script>
 {% endblock %}

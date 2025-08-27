@@ -1,51 +1,66 @@
 {% extends 'base.html.twig' %}
 
+{# Título de la página #}
 {% block title %}Listado de Ingredientes{% endblock %}
 
 {% block body %}
-<div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
-     style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
-</div>
-<div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1;">
-    <h1 class="mb-4">Listado de Ingredientes</h1>
-    <div class="mb-3 d-flex justify-content-between">
-        <a href="{{ path('administrador') }}" class="btn btn-secondary">Volver al panel de administración</a>
-        <a href="{{ path('nuevo_ingrediente') }}" class="btn btn-primary">Nuevo Ingrediente</a>
+    {# Fondo de pantalla fijo para toda la página #}
+    <div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
+         style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
     </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ingrediente in ingredientes %}
+
+    {# Contenedor principal blanco translúcido y centrado #}
+    <div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1;">
+        {# Título principal #}
+        <h1 class="mb-4">Listado de Ingredientes</h1>
+
+        {# Botones de navegación: volver y nuevo ingrediente #}
+        <div class="mb-3 d-flex justify-content-between">
+            <a href="{{ path('administrador') }}" class="btn btn-secondary">Volver al panel de administración</a>
+            <a href="{{ path('nuevo_ingrediente') }}" class="btn btn-primary">Nuevo Ingrediente</a>
+        </div>
+
+        {# Tabla de ingredientes #}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle">
+                <thead class="table-dark">
                     <tr>
-                        <td>{{ ingrediente.id }}</td>
-                        <td>{{ ingrediente.nombre }}</td>
-                        <td>
-                            <a href="{{ path('ingrediente_editar', {'id': ingrediente.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Editar</a>
-                            <a href="{{ path('ingrediente_eliminar', {'id': ingrediente.id}) }}" class="btn btn-danger btn-sm mb-1"
-                               onclick="return confirm('¿Seguro que quieres eliminar este ingrediente?');">Eliminar</a>
-                        </td>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="3" class="text-center">No hay ingredientes disponibles.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }} mt-3">
-                {{ message }}
-            </div>
+                </thead>
+                <tbody>
+                    {# Bucle de ingredientes #}
+                    {% for ingrediente in ingredientes %}
+                        <tr>
+                            <td>{{ ingrediente.id }}</td>
+                            <td>{{ ingrediente.nombre }}</td>
+                            <td>
+                                {# Botón para editar el ingrediente #}
+                                <a href="{{ path('ingrediente_editar', {'id': ingrediente.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Editar</a>
+                                {# Botón para eliminar el ingrediente, con confirmación #}
+                                <a href="{{ path('ingrediente_eliminar', {'id': ingrediente.id}) }}" class="btn btn-danger btn-sm mb-1"
+                                   onclick="return confirm('¿Seguro que quieres eliminar este ingrediente?');">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        {# Mensaje si no hay ingredientes #}
+                        <tr>
+                            <td colspan="3" class="text-center">No hay ingredientes disponibles.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {# Mensajes flash para notificaciones (éxito, error, etc.) #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-</div>
+    </div>
 {% endblock %}

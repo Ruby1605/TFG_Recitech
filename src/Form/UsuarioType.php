@@ -10,23 +10,35 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
+/**
+ * Formulario para crear o editar un usuario.
+ * Incluye campos para nombre, correo electrónico, contraseña y rol.
+ */
 class UsuarioType extends AbstractType
 {
+    /**
+     * Construye el formulario de usuario.
+     * Define los campos y sus tipos.
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            // Campo para el nombre del usuario
             ->add('nombre', TextType::class, [
                 'label' => 'Nombre',
                 'attr' => ['class' => 'form-control'],
             ])
+            // Campo para el correo electrónico
             ->add('email', EmailType::class, [
                 'label' => 'Correo electrónico',
                 'attr' => ['class' => 'form-control'],
             ])
+            // Campo para la contraseña
             ->add('password', PasswordType::class, [
                 'label' => 'Contraseña',
                 'attr' => ['class' => 'form-control'],
             ])
+            // Campo para seleccionar el rol del usuario
             ->add('rol', ChoiceType::class, [
                 'label' => 'Rol',
                 'label_attr' => ['style' => 'margin-right: 30px;'],
@@ -37,9 +49,12 @@ class UsuarioType extends AbstractType
                 'placeholder' => 'Selecciona un rol',
                 'attr' => ['class' => 'form-select'],
             ]);
-            // Agrega aquí otros campos según la entidad Usuario
     }
 
+    /**
+     * Configura las opciones del formulario.
+     * Asocia el formulario con la entidad Usuario.
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

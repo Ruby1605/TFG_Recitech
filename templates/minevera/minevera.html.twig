@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{# Bloque de estilos: Tailwind y fondo de pantalla principal #}
 {% block stylesheets %}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-      <style>
+    <style>
         body {
             background-image: url('{{ asset('assets/FondoHomeRecitech.jpg') }}');
             background-size: cover;
@@ -14,30 +15,30 @@
 
 {% block body %}
     <div class="min-h-screen" style="background-image: url('{{ asset('assets/FondoHomeRecitech.jpg') }}'); background-size: cover; background-position: center;">
-        <!-- Header -->
+        {# Header con logo y menú de navegación #}
         <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
-            <!-- Logo -->
+            {# Logo y nombre #}
             <div class="flex items-center space-x-2">
-            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
-            <a href="/home" class="text-lg font-semibold text-gray-700">ReciTech</a>
+                <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+                <a href="/home" class="text-lg font-semibold text-gray-700">ReciTech</a>
             </div>
-            <!-- Menú -->
+            {# Menú de navegación #}
             <nav class="flex items-center space-x-2 text-xs">
-            <a href="/home" class="flex flex-col items-center">
-                <img src="{{ asset('assets/iconos/casa.png') }}" alt="" class="w-8 h-8">
-            </a>
-            <a href="/tiporeceta" class="flex flex-col items-center">
-                <img src="{{ asset('assets/iconos/libro-de-recetas.png') }}" alt="Recetas" class="w-8 h-8">
-            </a>
-            <a href="/perfil" class="ml-2">
-                <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full border border-gray-300">
-            </a>
+                <a href="/home" class="flex flex-col items-center">
+                    <img src="{{ asset('assets/iconos/casa.png') }}" alt="" class="w-8 h-8">
+                </a>
+                <a href="/tiporeceta" class="flex flex-col items-center">
+                    <img src="{{ asset('assets/iconos/libro-de-recetas.png') }}" alt="Recetas" class="w-8 h-8">
+                </a>
+                <a href="/perfil" class="ml-2">
+                    <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full border border-gray-300">
+                </a>
             </nav>
         </header>
 
-        <!-- Contenido principal -->
+        {# Contenido principal #}
         <div class="container mx-auto p-6">
-            <!-- Selección de ingredientes -->
+            {# Selección de ingredientes con buscador y listado dinámico #}
             <div class="bg-white rounded-lg shadow-lg p-6 w-full mb-6">
                 <h2 class="text-lg font-bold text-gray-700 mb-4">Elige los ingredientes que tienes en casa</h2>
                 <div class="mb-4">
@@ -49,16 +50,16 @@
                     </select>
                 </div>
                 <div class="flex flex-wrap gap-2" id="ingredientes-añadidos">
-                    <!-- Ingredientes añadidos dinámicamente -->
+                    {# Ingredientes añadidos dinámicamente #}
                 </div>
             </div>
         
-            <!-- Opciones de filtro -->
+            {# Opciones de filtro para dificultad, calorías y tiempo #}
             <div class="bg-white rounded-lg shadow-lg p-6 w-full">
                 <h2 class="text-lg font-bold text-gray-700 mb-4">Filtros</h2>
                 <form method="get" action="{{ path('filtrar_recetas') }}">
                     <div class="space-y-4">
-                        <!-- Nivel de receta -->
+                        {# Filtro por dificultad #}
                         <div>
                             <label for="nivel-receta" class="block text-gray-600 font-medium mb-1">Dificultad</label>
                             <select id="nivel-receta" name="dificultad" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -68,14 +69,12 @@
                                 <option value="Difícil">Difícil</option>
                             </select>
                         </div>
-
-                        <!-- Calorías máximas -->
+                        {# Filtro por calorías máximas #}
                         <div>
                             <label for="calorias-max" class="block text-gray-600 font-medium mb-1">Calorías máximas</label>
                             <input type="number" id="calorias-max" name="calorias_max" min="0" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: 500">
                         </div>
-
-                        <!-- Tiempo máximo -->
+                        {# Filtro por tiempo máximo #}
                         <div>
                             <label for="tiempo-max" class="block text-gray-600 font-medium mb-1">Tiempo máximo (minutos)</label>
                             <input type="number" id="tiempo-max" name="tiempo_max" min="0" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: 30">
@@ -86,12 +85,13 @@
                 </form>
             </div>
 
-            <!-- Resultado de recetas filtradas -->
+            {# Aquí se mostrarán los resultados de recetas filtradas #}
             
         </div>
     </div>
 {% endblock %}
 
+{# Bloque de scripts JS para buscador y selección de ingredientes #}
 {% block javascripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {

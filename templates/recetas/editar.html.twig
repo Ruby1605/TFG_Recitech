@@ -1,109 +1,119 @@
 {% extends 'base.html.twig' %}
 
+{# Título de la página #}
 {% block title %}Editar Receta{% endblock %}
 
 {% block body %}
-<div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
-    style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
-</div>
-<div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1; max-width: 500px;">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <h1 class="mb-4">Editar receta</h1>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    {{ form_start(form) }}
-                        {{ form_row(form.nombre) }}
-                        {{ form_row(form.explicacion) }}
-                        {{ form_row(form.tiempo) }}
-                        {{ form_row(form.dificultad) }}
-                        {{ form_row(form.nacionalidad) }}
-                        {{ form_row(form.porciones) }}
+    {# Fondo de pantalla fijo para toda la página #}
+    <div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
+        style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
+    </div>
+    {# Contenedor principal blanco translúcido y centrado #}
+    <div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1; max-width: 500px;">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <h1 class="mb-4">Editar receta</h1>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {# Formulario de edición de la receta #}
+                        {{ form_start(form) }}
+                            {{ form_row(form.nombre) }}
+                            {{ form_row(form.explicacion) }}
+                            {{ form_row(form.tiempo) }}
+                            {{ form_row(form.dificultad) }}
+                            {{ form_row(form.nacionalidad) }}
+                            {{ form_row(form.porciones) }}
 
-                        <!-- Palabras clave -->
-                        <div class="mb-3">
-                            <label class="form-label">Palabras clave</label>
-                            {{ form_row(form.palabrasClave) }}
-                            <div class="mt-2">
-                                {% set palabras = [
-                                    'Postre', 'carne', 'fruta', 'verduras', 'salsa', 'horno', 'almuerzo', 'asado', 'desayuno', 'pescado',
-                                    'saludable', 'patatas', 'pollo', 'vegana', 'queso', 'cerdo'
-                                ] %}
-                                {% for palabra in palabras %}
-                                    <span class="badge bg-info text-dark palabra-clave-badge" style="cursor:pointer; margin:2px;" data-palabra="{{ palabra }}">{{ palabra }}</span>
+                            {# Palabras clave con sugerencias rápidas #}
+                            <div class="mb-3">
+                                <label class="form-label">Palabras clave</label>
+                                {{ form_row(form.palabrasClave) }}
+                                <div class="mt-2">
+                                    {% set palabras = [
+                                        'Postre', 'carne', 'fruta', 'verduras', 'salsa', 'horno', 'almuerzo', 'asado', 'desayuno', 'pescado',
+                                        'saludable', 'patatas', 'pollo', 'vegana', 'queso', 'cerdo'
+                                    ] %}
+                                    {% for palabra in palabras %}
+                                        <span class="badge bg-info text-dark palabra-clave-badge" style="cursor:pointer; margin:2px;" data-palabra="{{ palabra }}">{{ palabra }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {# Ingredientes de la receta (colección dinámica) #}
+                            <h5>Ingredientes</h5>
+                            <div id="receta_ingredientes"
+                                 data-prototype="{{ form_widget(form.recetaIngredientes.vars.prototype)|e('html_attr') }}">
+                                {% for formIngrediente in form.recetaIngredientes %}
+                                    <div class="ingrediente-item mb-2">
+                                        {{ form_widget(formIngrediente) }}
+                                        <button type="button" class="btn btn-danger btn-sm eliminar-ingrediente ms-2">Eliminar</button>
+                                    </div>
                                 {% endfor %}
                             </div>
-                        </div>
+                            <button type="button" class="btn btn-info mt-2" id="add-ingrediente">Añadir ingrediente</button>
 
-                        <h5>Ingredientes</h5>
-                        <div id="receta_ingredientes"
-                             data-prototype="{{ form_widget(form.recetaIngredientes.vars.prototype)|e('html_attr') }}">
-                            {% for formIngrediente in form.recetaIngredientes %}
-                                <div class="ingrediente-item mb-2">
-                                    {{ form_widget(formIngrediente) }}
-                                    <button type="button" class="btn btn-danger btn-sm eliminar-ingrediente ms-2">Eliminar</button>
+                            {# Imagen actual de la receta y opción para eliminarla #}
+                            {% if receta.imagen %}
+                                <div class="mb-3">
+                                    <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}" alt="Imagen de la receta" class="img-fluid mb-3" style="max-width: 300px;">
+                                    <div>
+                                        <label>
+                                            <input type="checkbox" name="eliminar_imagen"> Eliminar imagen actual
+                                        </label>
+                                    </div>
                                 </div>
-                            {% endfor %}
-                        </div>
-                        <button type="button" class="btn btn-info mt-2" id="add-ingrediente">Añadir ingrediente</button>
+                            {% else %}
+                                <div class="alert alert-warning mt-2">No hay imagen para esta receta.</div>
+                            {% endif %}
 
-                        {% if receta.imagen %}
-                            <div class="mb-3">
-                                <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}" alt="Imagen de la receta" class="img-fluid mb-3" style="max-width: 300px;">
-                                <div>
-                                    <label>
-                                        <input type="checkbox" name="eliminar_imagen"> Eliminar imagen actual
-                                    </label>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="alert alert-warning mt-2">No hay imagen para esta receta.</div>
-                        {% endif %}
+                            {# Campo para subir nueva imagen #}
+                            {{ form_row(form.imagen) }}
 
-                        {{ form_row(form.imagen) }}
-
-                        <button class="btn btn-success mt-3">Guardar cambios</button>
-                    {{ form_end(form) }}
-                    <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary mt-3">Volver al listado</a>
+                            {# Botón para guardar cambios #}
+                            <button class="btn btn-success mt-3">Guardar cambios</button>
+                        {{ form_end(form) }}
+                        {# Botón para volver al listado de recetas #}
+                        <a href="{{ path('gestion_recetas') }}" class="btn btn-secondary mt-3">Volver al listado</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var collectionHolder = document.getElementById('receta_ingredientes');
-    var addButton = document.getElementById('add-ingrediente');
-    var index = collectionHolder.querySelectorAll('.ingrediente-item').length;
+    {# Script para gestión dinámica de ingredientes y palabras clave #}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var collectionHolder = document.getElementById('receta_ingredientes');
+        var addButton = document.getElementById('add-ingrediente');
+        var index = collectionHolder.querySelectorAll('.ingrediente-item').length;
 
-    addButton.addEventListener('click', function() {
-        var prototype = collectionHolder.dataset.prototype;
-        var newForm = prototype.replace(/__name__/g, index);
-        var div = document.createElement('div');
-        div.classList.add('ingrediente-item', 'mb-2');
-        div.innerHTML = newForm + '<button type="button" class="btn btn-danger btn-sm eliminar-ingrediente ms-2">Eliminar</button>';
-        collectionHolder.appendChild(div);
-        index++;
-    });
+        addButton.addEventListener('click', function() {
+            var prototype = collectionHolder.dataset.prototype;
+            var newForm = prototype.replace(/__name__/g, index);
+            var div = document.createElement('div');
+            div.classList.add('ingrediente-item', 'mb-2');
+            div.innerHTML = newForm + '<button type="button" class="btn btn-danger btn-sm eliminar-ingrediente ms-2">Eliminar</button>';
+            collectionHolder.appendChild(div);
+            index++;
+        });
 
-    collectionHolder.addEventListener('click', function(e) {
-        if (e.target && e.target.classList.contains('eliminar-ingrediente')) {
-            e.target.closest('.ingrediente-item').remove();
-        }
-    });
-
-    // Palabras clave
-    const input = document.getElementById('receta_palabrasClave');
-    document.querySelectorAll('.palabra-clave-badge').forEach(function(badge) {
-        badge.addEventListener('click', function() {
-            const palabra = badge.getAttribute('data-palabra');
-            let actuales = input.value.split(',').map(e => e.trim()).filter(e => e.length > 0);
-            if (!actuales.includes(palabra)) {
-                actuales.push(palabra);
-                input.value = actuales.join(', ');
+        collectionHolder.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('eliminar-ingrediente')) {
+                e.target.closest('.ingrediente-item').remove();
             }
         });
+
+        // Palabras clave
+        const input = document.getElementById('receta_palabrasClave');
+        document.querySelectorAll('.palabra-clave-badge').forEach(function(badge) {
+            badge.addEventListener('click', function() {
+                const palabra = badge.getAttribute('data-palabra');
+                let actuales = input.value.split(',').map(e => e.trim()).filter(e => e.length > 0);
+                if (!actuales.includes(palabra)) {
+                    actuales.push(palabra);
+                    input.value = actuales.join(', ');
+                }
+            });
+        });
     });
-});
-</script>
+    </script>
 {% endblock %}

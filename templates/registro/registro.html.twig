@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{# Bloque de estilos: Tailwind y fondo de pantalla de registro #}
 {% block stylesheets %}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
@@ -13,6 +14,7 @@
 {% endblock %}
 
 {% block body %}
+    {# Cabecera con logo y nombre de la aplicación #}
     <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
          <div class="flex items-center space-x-2">
             <a href="{{ path('app_main_index') }}" class="flex items-center space-x-2">
@@ -22,6 +24,7 @@
         </div>
     </header>
 
+    {# Contenedor principal centrado con el formulario de registro #}
     <div class="flex justify-center items-center min-h-screen ">
         <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
             <h2 class="text-2xl font-bold text-gray-700 text-center mb-6">Registrarse</h2>
@@ -60,6 +63,7 @@
             </p>
         </div>
     </div>
+    {# Script para validar que las contraseñas coincidan antes de enviar el formulario #}
     <script>
         function validarPasswords() {
             var pass1 = document.getElementById('password').value;

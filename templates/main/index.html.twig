@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{# --- BLOQUE DE ESTILOS Y FUENTES --- #}
 {% block stylesheets %}
+    {# Tailwind CSS para utilidades y Google Fonts para la fuente Inter #}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
     <style>
@@ -15,18 +17,19 @@
 {% endblock %}
 
 {% block body %}
+    {# --- CABECERA CON LOGO, NOMBRE Y NAVEGACIÓN --- #}
     <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
         <div class="flex items-center space-x-2">
             <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
             <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
         </div>
-        <!-- Mobile menu button -->
+        {# Botón menú móvil (solo visible en pantallas pequeñas) #}
         <button id="mobile-menu-button" class="md:hidden flex items-center px-3 py-2 border rounded text-blue-600 border-blue-600 focus:outline-none">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
         </button>
-        <!-- Desktop nav -->
+        {# Navegación de escritorio #}
         <nav class="hidden md:flex items-center space-x-6">
             <a href="/registro" class="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
                 Registrarse
@@ -36,7 +39,8 @@
             </a>
         </nav>
     </header>
-    <!-- Mobile nav -->
+
+    {# --- MENÚ DE NAVEGACIÓN MÓVIL --- #}
     <nav id="mobile-menu" class="md:hidden hidden flex-col space-y-2 bg-white shadow-md rounded-xl mx-5 mt-2 p-4">
         <a href="/registro" class="block bg-blue-100 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-200">
             Registrarse
@@ -45,6 +49,7 @@
             Iniciar Sesión
         </a>
     </nav>
+    {# Script para mostrar/ocultar el menú móvil #}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const btn = document.getElementById('mobile-menu-button');
@@ -55,7 +60,7 @@
         });
     </script>
 
-    <!-- Imagen debajo del header con texto encima -->
+    {# --- IMAGEN PRINCIPAL CON TEXTO DE BIENVENIDA --- #}
     <div class="relative mx-5 mt-8">
         <picture>
             <source srcset="{{ asset('assets/MarmolBlanco.jpg') }}" media="(max-width: 767px)">
@@ -72,9 +77,9 @@
         </div>
     </div>
 
-    <!-- Bloque texto + imagen (responsive) -->
+    {# --- BLOQUE 1: TEXTO + IMAGEN DERECHA (¿Qué encontrarás en ReciTech?) --- #}
     <div class="mx-5 mt-6 flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 bg-white rounded-xl shadow-md p-6" style="background-image: url('{{ asset('assets/MarmolBlanco.jpg') }}'); background-size: cover; background-position: center;">
-        <!-- Texto a la izquierda -->
+        {# Texto a la izquierda #}
         <div class="w-full md:w-1/2 flex flex-col justify-center">
             <h2 class="text-2xl font-bold text-gray-700 mb-4 text-center mt-0">¿Qué encontrarás en ReciTech?</h2>
             <div class="mb-4"></div>
@@ -85,10 +90,9 @@
                 ocasiones especiales, nuestro objetivo es ayudarte a disfrutar del arte de cocinar de la manera más sencilla posible.
             </p>
         </div>
-        <!-- Imagen a la derecha -->
+        {# Imagen a la derecha con carrusel de imágenes #}
         <div class="w-full md:w-1/2">
             <img id="carousel-image-derecha" src="{{ asset('assets/FotoHomeCocina.jpg') }}" alt="Descripción de la imagen" class="w-full rounded-xl shadow-md">
-            <!-- Botones del carrusel -->
             <div class="flex justify-center mt-4 space-x-2">
                 <button class="w-6 h-6 bg-gray-300 rounded" data-index="0" data-carousel="right"></button>
                 <button class="w-6 h-6 bg-gray-300 rounded" data-index="1" data-carousel="right"></button>
@@ -97,19 +101,18 @@
         </div>
     </div>
 
-    <!-- Bloque imagen + texto (responsive) -->
+    {# --- BLOQUE 2: IMAGEN IZQUIERDA + TEXTO (Principales funcionalidades) --- #}
     <div class="mx-5 mt-6 flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 bg-white rounded-xl shadow-md p-6" style="background-image: url('{{ asset('assets/MarmolBlanco.jpg') }}'); background-size: cover; background-position: center;">
-        <!-- Imagen a la izquierda -->
+        {# Imagen a la izquierda con carrusel de imágenes #}
         <div class="w-full md:w-1/2">
             <img id="carousel-image-izquierda" src="{{ asset('assets/FotoHomeCocina.jpg') }}" alt="Descripción de la imagen" class="w-full rounded-xl shadow-md">
-            <!-- Botones del carrusel -->
             <div class="flex justify-center mt-4 space-x-2">
                 <button class="w-6 h-6 bg-gray-300 rounded" data-index="0" data-carousel="left"></button>
                 <button class="w-6 h-6 bg-gray-300 rounded" data-index="1" data-carousel="left"></button>
                 <button class="w-6 h-6 bg-gray-300 rounded" data-index="2" data-carousel="left"></button>
             </div>
         </div>
-        <!-- Texto a la derecha -->
+        {# Texto a la derecha #}
         <div class="w-full md:w-1/2 flex flex-col justify-center" style="margin-top: 60px;">
             <h2 class="text-2xl font-bold text-gray-700 mb-4">Principales funcionalidades de ReciTech</h2>
             <p class="text-black text-lg md:text-xl">
@@ -118,10 +121,13 @@
             acceso a un extenso catálogo de recetas organizadas por nivel de dificultad, ideal tanto para principiantes 
             como para cocineros experimentados. Cada receta incluye atributos detallados como tiempo de preparación, tipo 
             de comida y nivel de dificultad , permitiendo a cada usuario encontrar platos que se adapten
-            perfectamente a sus gustos, necesidades y estilo de vida.
+            perfectamente a sus gustos, necesidades y estilo de vida. Ademas implementa una IA que calcula los valores nutricionales
+            de cada receta, proporcionando información valiosa para poder controlar su ingesta calórica y nutricional.
             </p>
         </div>
     </div>
+
+    {# --- PIE DE PÁGINA --- #}
     <footer class="bg-black text-white py-6 mt-10 rounded-xl mx-5">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <span class="text-sm mb-2 md:mb-0">&copy; {{ "now"|date("Y") }} ReciTech. Todos los derechos reservados.</span>
@@ -129,6 +135,8 @@
         </div>
     </footer>
 {% endblock %}
+
+{# --- BLOQUE DE SCRIPTS JS PERSONALIZADOS --- #}
 {% block javascripts %}
 <script src="{{ asset('js/JavaScript.js') }}"></script>
 {% endblock %}

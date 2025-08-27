@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{# Bloque de estilos: incluye Tailwind y fondo de pantalla #}
 {% block stylesheets %}
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-      <style>
+    <style>
         body {
             background-image: url('{{ asset('assets/FondoHomeRecitech.jpg') }}');
             background-size: cover;
@@ -13,35 +14,36 @@
 {% endblock %}
 
 {% block body %}
+    {# Fondo principal y cabecera de navegación #}
     <div class="min-h-screen" style="background-image: url('{{ asset('assets/FondoHomeRecitech.jpg') }}'); background-size: cover; background-position: center;">
         <header class="sticky top-0 z-50 flex justify-between items-center p-4 bg-white shadow-md rounded-xl mx-5 mt-6">
             <div class="flex items-center space-x-2">
-            <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
-            <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
+                <img src="{{ asset('assets/IconoRobot.png') }}" alt="Icono Robot" class="w-12 h-12">
+                <h1 class="text-lg font-semibold text-gray-700">ReciTech</h1>
             </div>
             <nav class="flex items-center text-xs">
-            <div class="flex items-center space-x-3">
-                <a href="/home" class="flex flex-col items-center">
-                <img src="{{ asset('assets/iconos/casa.png') }}" alt="" class="w-8 h-8">
+                <div class="flex items-center space-x-3">
+                    <a href="/home" class="flex flex-col items-center">
+                        <img src="{{ asset('assets/iconos/casa.png') }}" alt="" class="w-8 h-8">
+                    </a>
+                    <a href="/minevera" class="flex flex-col items-center">
+                        <img src="{{ asset('assets/iconos/nevera.png') }}" alt="Mi Nevera" class="w-8 h-8">
+                    </a>
+                    <a href="/tiporeceta" class="flex flex-col items-center">
+                        <img src="{{ asset('assets/iconos/libro-de-recetas.png') }}" alt="Recetas" class="w-8 h-8">
+                    </a>
+                </div>
+                <span class="mx-4"></span>
+                <a href="/perfil">
+                    <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full border border-gray-300">
                 </a>
-                <a href="/minevera" class="flex flex-col items-center">
-                <img src="{{ asset('assets/iconos/nevera.png') }}" alt="Mi Nevera" class="w-8 h-8">
-                </a>
-                <a href="/tiporeceta" class="flex flex-col items-center">
-                <img src="{{ asset('assets/iconos/libro-de-recetas.png') }}" alt="Recetas" class="w-8 h-8">
-                </a>
-            </div>
-            <span class="mx-4"></span>
-            <a href="/perfil">
-                <img src="{{ asset('assets/user.png') }}" alt="Foto de perfil" class="w-12 h-12 rounded-full border border-gray-300">
-            </a>
             </nav>
         </header>
 
         <div class="container mx-auto p-6">
-
-            <!-- Tarjeta de receta -->
+            {# Tarjeta de receta principal #}
             <div class="flex flex-col md:flex-row items-center bg-white rounded-2xl shadow-lg p-8 max-w-3xl mx-auto">
+                {# Imagen de la receta o marcador si no hay foto #}
                 {% if receta.imagen %}
                     <img src="{{ asset('assets/fotorecetas/' ~ receta.imagen) }}"
                          alt="{{ receta.nombre }}"
@@ -54,8 +56,10 @@
                     </div>
                 {% endif %}
                 <div class="flex-1 w-full">
+                    {# Título de la receta #}
                     <h2 class="text-3xl font-bold text-gray-800 mb-4 text-center md:text-left">{{ receta.nombre }}</h2>
                     <div class="flex flex-row justify-center md:justify-start items-center space-x-6 mb-4">
+                        {# Dificultad con color #}
                         <div class="flex items-center">
                             {% set color = 'bg-red-500' %}
                             {% if receta.dificultad|lower == 'fácil' or receta.dificultad|lower == 'facil' %}
@@ -66,16 +70,46 @@
                             <span class="w-5 h-5 {{ color }} rounded-full mr-2"></span>
                             <span class="text-gray-700 text-lg">{{ receta.dificultad }}</span>
                         </div>
+                        {# Tiempo de preparación #}
                         <div class="flex items-center">
                             <img src="{{ asset('assets/iconos/reloj.png') }}" alt="Tiempo" class="w-5 h-5 mr-2" />
                             <span class="text-gray-700 text-lg">{{ receta.tiempo }} min</span>
                         </div>
+                        {# Nacionalidad con icono #}
+                        <div class="flex items-center">
+                            {# Normaliza a minúsculas y sin tildes para comparar #}
+                            {% set nacionalidad = receta.nacionalidad|lower|replace({'á':'a','é':'e','í':'i','ó':'o','ú':'u'}) %}
+                            {% set icono = 'otras.png' %}
+                            {% if nacionalidad == 'sur america' %}
+                                {% set icono = 'americana.png' %}
+                            {% elseif nacionalidad == 'americana' %}
+                                {% set icono = 'americana.png' %}
+                            {% elseif nacionalidad == 'asiatica' %}
+                                {% set icono = 'asiatica.png' %}
+                            {% elseif nacionalidad == 'china' %}
+                                {% set icono = 'asiatica.png' %}
+                            {% elseif nacionalidad == 'japonesa' %}
+                                {% set icono = 'japonesa.png' %}
+                            {% elseif nacionalidad == 'española' %}
+                                {% set icono = 'española.png' %}
+                            {% elseif nacionalidad == 'francesa' %}
+                                {% set icono = 'francesa.png' %}
+                            {% elseif nacionalidad == 'italiana' %}
+                                {% set icono = 'italiana.png' %}
+                            {% elseif nacionalidad == 'mexicana' %}
+                                {% set icono = 'mexicana.png' %}
+                            {% endif %}
+                            <img src="{{ asset('assets/Nacionalidades/' ~ icono) }}" alt="Nacionalidad" class="w-5 h-5 mr-2" />
+                            <span class="text-gray-700 text-lg">{{ receta.nacionalidad }}</span>
+                        </div>
                     </div>
                     <div class="mb-4">
+                        {# Descripción de la receta #}
                         <h3 class="font-semibold text-gray-700 mb-1">Descripción:</h3>
                         <p class="text-gray-600" style="white-space: pre-line;">{{ receta.explicacion }}</p>
                     </div>
                     <div>
+                        {# Ingredientes de la receta #}
                         <h3 class="font-semibold text-gray-700 mb-1">Ingredientes:</h3>
                         <ul class="list-disc list-inside text-gray-600">
                             {% for recetaIngrediente in receta.recetaIngredientes %}
@@ -87,19 +121,20 @@
                             {% endfor %}
                         </ul>
                         <div class="flex justify-end mt-6">
+                            {# Botón para ver la información nutricional mediante IA #}
                             <a href="/valornutricional/{{ receta.id }}"
                                class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition duration-200">
-                                Información Nutricional
+                                Información Nutricional mediante IA
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 {% endblock %}
 
+{# Bloque para scripts JS adicionales #}
 {% block javascripts %}
     <script src="{{ asset('js/JSPaginaPrincipal.js') }}"></script>
 {% endblock %}

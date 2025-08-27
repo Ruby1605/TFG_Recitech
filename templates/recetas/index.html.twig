@@ -1,60 +1,75 @@
 {% extends 'base.html.twig' %}
 
+{# Título de la página #}
 {% block title %}Listado de Recetas{% endblock %}
 
-
-
 {% block body %}
-<div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100" style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;"></div>
-  <div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1;">
-    <h1 class="mb-4">Listado de Recetas</h1>
-    <div class="mb-3 d-flex justify-content-between">
-        <a href="{{ path('administrador') }}" class="btn btn-secondary">Volver al panel de administración</a>
-        <a href="{{ path('receta_nueva') }}" class="btn btn-primary">Nueva Receta</a>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Dificultad</th>
-                    <th>Tiempo</th>
-                    <th>Nacionalidad</th>
-                    <th>Porciones</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for receta in recetas %}
+    {# Fondo de pantalla fijo para toda la página #}
+    <div class="position-fixed top-0 start-0 w-100 h-100 min-vh-100 min-vw-100"
+         style="z-index: -1; background-image: url('{{ asset('assets/FondoPantallaAdministrador.jpg') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;"></div>
+    
+    {# Contenedor principal blanco translúcido y centrado #}
+    <div class="container bg-white bg-opacity-90 rounded-xl shadow-lg py-4 position-relative" style="z-index: 1;">
+        {# Título principal #}
+        <h1 class="mb-4">Listado de Recetas</h1>
+        
+        {# Botones de navegación: volver y nueva receta #}
+        <div class="mb-3 d-flex justify-content-between">
+            <a href="{{ path('administrador') }}" class="btn btn-secondary">Volver al panel de administración</a>
+            <a href="{{ path('receta_nueva') }}" class="btn btn-primary">Nueva Receta</a>
+        </div>
+        
+        {# Tabla de recetas #}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle">
+                <thead class="table-dark">
                     <tr>
-                        <td>{{ receta.id }}</td>
-                        <td>{{ receta.nombre }}</td>
-                        <td>{{ receta.dificultad }}</td>
-                        <td>{{ receta.tiempo }}</td>
-                        <td>{{ receta.nacionalidad }}</td>
-                        <td>{{ receta.porciones }}</td>
-                        <td>
-                            <a href="{{ path('receta_ver', {'id': receta.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Ver</a>
-                            <a href="{{ path('receta_editar', {'id': receta.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Editar</a>
-                            <a href="{{ path('receta_eliminar', {'id': receta.id}) }}" class="btn btn-danger btn-sm mb-1"
-                               onclick="return confirm('¿Seguro que quieres eliminar esta receta?');">Eliminar</a>
-                        </td>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Dificultad</th>
+                        <th>Tiempo</th>
+                        <th>Nacionalidad</th>
+                        <th>Porciones</th>
+                        <th>Acciones</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="7" class="text-center">No hay recetas disponibles.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }} mt-3">
-                {{ message }}
-            </div>
+                </thead>
+                <tbody>
+                    {# Bucle de recetas #}
+                    {% for receta in recetas %}
+                        <tr>
+                            <td>{{ receta.id }}</td>
+                            <td>{{ receta.nombre }}</td>
+                            <td>{{ receta.dificultad }}</td>
+                            <td>{{ receta.tiempo }}</td>
+                            <td>{{ receta.nacionalidad }}</td>
+                            <td>{{ receta.porciones }}</td>
+                            <td>
+                                {# Botón para ver la receta #}
+                                <a href="{{ path('receta_ver', {'id': receta.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Ver</a>
+                                {# Botón para editar la receta #}
+                                <a href="{{ path('receta_editar', {'id': receta.id}) }}" class="btn btn-info btn-sm me-1 mb-1">Editar</a>
+                                {# Botón para eliminar la receta, con confirmación #}
+                                <a href="{{ path('receta_eliminar', {'id': receta.id}) }}" class="btn btn-danger btn-sm mb-1"
+                                   onclick="return confirm('¿Seguro que quieres eliminar esta receta?');">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        {# Mensaje si no hay recetas #}
+                        <tr>
+                            <td colspan="7" class="text-center">No hay recetas disponibles.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {# Mensajes flash para notificaciones (éxito, error, etc.) #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-</div>
+    </div>
 {% endblock %}
